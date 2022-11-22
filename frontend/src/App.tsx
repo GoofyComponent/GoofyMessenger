@@ -4,11 +4,11 @@ import { Form, Row, Container, Col, Button } from "react-bootstrap";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return;
-
-  <>test</>;
+  return (
+    <>
+      <h1>test</h1>
+    </>
+  );
 }
 
 export default App;
