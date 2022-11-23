@@ -1,44 +1,75 @@
-import React from 'react'
+import React from "react";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Row, Container, Col, Button } from "react-bootstrap";
-import "../Login/login.css";
+import axios from "axios";
+import "../../css/login.css";
 
-export default function login(props: { onFormSwitch: (arg0: string) => void; }) {
-  const [email, setEmail] = useState('')
-  const [pass, setPass] = useState('')
+function Login() {
+  const [credentials, setCredentials] = useState({
+    email: "norwood60@gmail.com",
+    password: "password",
+  });
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const onChange = (e: any) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    console.log(e.target.value);
+    console.log(e.target.name);
+  };
+
+  const onSubmit = (e: any) => {
     e.preventDefault();
-    console.log(email);
-  }
-  
-  return (
+    console.log("formulaire envoyé");
+    console.log(credentials);
+    axios
+      .post("http://localhost/login", credentials)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
-<>
-    <form onSubmit={handleSubmit} className=' mx-auto p-4'>
-      <h4 className=' text-md-center mb-4 text-primary'> Connexion </h4>
-     <div className="mb-3">
-       <label htmlFor="exampleInputEmail1" className="form-label ">Email address </label>
-       <input 
-       onChange={(e) => setEmail(e.target.value)}
-       value = {email}
-       type="email" 
-       className="form-control" 
-       id="exampleInputEmail1" />
-     </div>
-     <div className="mb-3">
-       <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-       <input
-       onChange={(e) => setPass(e.target.value)}
-       value = {pass}
-       type="password" 
-       className="form-control"
-       id="exampleInputPassword1" />
-     </div>
-     <button type="submit" className="btn btn-outline-primary form-control mt-4 mb-2">Login </button>
-     <button className='mt-2 text-center' onClick={() => props.onFormSwitch('register')}> Don't have an account ? Resgister here  </button>
-     </form>
-</>
-  )
+  return (
+    <>
+      <form onSubmit={onSubmit} className=" mx-auto p-4">
+        <h4 className=" text-md-center mb-4 text-primary"> Connexion </h4>
+        <div className="mb-3">
+          <label htmlFor="exampleInputEmail1" className="form-label ">
+            Email address{" "}
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="exampleInputEmail1"
+            name="email"
+            value={credentials.email}
+            onChange={onChange}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="exampleInputPassword1" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="exampleInputPassword1"
+            name="password"
+            value={credentials.password}
+            onChange={onChange}
+          />
+        </div>
+        <button
+          type="submit"
+          className="btn btn-outline-primary form-control mt-4 mb-2"
+        >
+          Login{" "}
+        </button>
+        <button className="mt-2 text-center">
+          {" "}
+          Don't have an account ? Resgister here{" "}
+        </button>
+      </form>
+    </>
+  );
 }
+
+export default Login;
