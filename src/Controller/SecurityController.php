@@ -42,4 +42,41 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+ /**
+     *@Route("/new", name="User_new", methods={"POST"})
+     */
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+        $User = new User();
+        $form = $this->createForm(UserType::class, $User);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                //encodage du mot de passe
+                $User->setPassword(
+                $passwordEncoder->encodePassword($User, $User->getPassword()));
+                $entityManager->persist($User);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('User_index');
+        }
+
+        return $this->render('User/', [
+        'User' => $User,
+        'form' => $form->createView(),
+        ]);
+    }
+
+    /**@Route(connexion réalisé avec succès) */
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+{
+        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+                return new RedirectResponse($targetPath);
+        }
+        //on renvoie à la liste des utilisateurs
+        return new RedirectResponse($this->urlGenerator->generate('utilisateur_index'));
+}
+      
 }
