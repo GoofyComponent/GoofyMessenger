@@ -7,7 +7,7 @@ import "../../css/login.css";
 
 function Login() {
   const [credentials, setCredentials] = useState({
-    email: "norwood60@gmail.com",
+    username: "norwood60@gmail.com",
     password: "password",
   });
 
@@ -21,8 +21,18 @@ function Login() {
     e.preventDefault();
     console.log("formulaire envoyé");
     console.log(credentials);
+
+    var basicAuth =
+      "Basic " + btoa(credentials.username + ":" + credentials.password);
+
     axios
-      .post("http://localhost/login", credentials)
+      .post("http://localhost/api/login", {
+        withCredentials: true,
+        auth: {
+          username: credentials.username,
+          password: credentials.password,
+        },
+      })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
@@ -40,7 +50,7 @@ function Login() {
             className="form-control"
             id="exampleInputEmail1"
             name="email"
-            value={credentials.email}
+            value={credentials.username}
             onChange={onChange}
           />
         </div>

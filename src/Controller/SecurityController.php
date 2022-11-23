@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/api/login", name="app_login")
      */
     public function login(JWTHelper $helper, CookieHelper $cookieHelper): Response
     {
@@ -36,7 +36,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="app_logout")
+     * @Route("/api/logout", name="app_logout")
      */
     public function logout(): void
     {

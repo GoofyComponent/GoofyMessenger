@@ -18,7 +18,7 @@ function sidebar() {
           <input type="search" name="name" className="search" />
         </Col>
       </Row>
-      <Row className="w-100 contactListBox">
+      <Row className="w-100 contactListBox mt-2">
         <Col>
           <ul className="contactList">
             <li className="contact">

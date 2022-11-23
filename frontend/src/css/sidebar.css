@@ -4,6 +4,7 @@
     width: 100%;
     max-width: 350px;
     color: white;
+    overflow: hidden;
 }
 .search {
     outline: none;
@@ -51,4 +52,6 @@ input[type="search"]::-webkit-search-cancel-button {
 .contactList {
     padding: 0;
     list-style: none;
+    overflow-y: scroll;
+    height: 600px;
 }
