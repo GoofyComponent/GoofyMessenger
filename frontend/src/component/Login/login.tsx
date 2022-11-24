@@ -3,11 +3,12 @@ import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Row, Container, Col, Button } from "react-bootstrap";
 import axios from "axios";
+import { AxiosRequestConfig } from "axios";
 import "../../css/login.css";
 
 function Login() {
   const [credentials, setCredentials] = useState({
-    email: "norwood60@gmail.com",
+    username: "schuppe.anya@gmail.com",
     password: "password",
   });
 
@@ -21,8 +22,17 @@ function Login() {
     e.preventDefault();
     console.log("formulaire envoyé");
     console.log(credentials);
+
+    var basicAuth =
+      "Basic " + btoa(credentials.username + ":" + credentials.password);
+    var url = "http://localhost:8245/api/login";
+    var headers = {
+      Authorization: basicAuth ,
+    };
+
+    // rejectUnauthorized: false
     axios
-      .post("http://localhost/login", credentials)
+      .post(url, {}, { headers: headers } )
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
@@ -40,7 +50,7 @@ function Login() {
             className="form-control"
             id="exampleInputEmail1"
             name="email"
-            value={credentials.email}
+            value={credentials.username}
             onChange={onChange}
           />
         </div>
