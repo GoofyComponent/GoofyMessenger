@@ -6,6 +6,7 @@ import Login from "./component/Login/login";
 import Home from "./component/Home/home";
 import Register from "./component/Register/register";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AuthGuard from "./_helpers/AuthGuard";
 
 function App() {
   const [currentForm, setCurrentForm] = useState("login");
@@ -17,9 +18,24 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route
+            path="/home"
+            element={
+              <AuthGuard>
+                <Home />
+              </AuthGuard>
+            }
+          />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+
+          <Route
+            path="/register"
+            element={
+              <AuthGuard>
+                <Register />
+              </AuthGuard>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>

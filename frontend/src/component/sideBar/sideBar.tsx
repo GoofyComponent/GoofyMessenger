@@ -3,13 +3,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Row, Container, Col, Button } from "react-bootstrap";
 import SearchIcon from "../../img/magnifying-glass-solid.svg";
 import "../../css/sidebar.css";
+import { accountService } from "../../_services/account.service";
+import { useNavigate } from "react-router-dom";
 
 function sidebar() {
+  let navigate = useNavigate();
+
+  const logout = () => {
+    accountService.logout();
+    navigate("/login");
+  };
+
   return (
     <div className="sideBar">
       <Row>
-        <Col>
+        <Col className="d-flex">
           <h1 className="p-3">Chat</h1>
+          <Button onClick={logout} className="">
+            logout
+          </Button>
         </Col>
       </Row>
       <Row>

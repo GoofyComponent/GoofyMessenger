@@ -5,11 +5,15 @@ import { Form, Row, Container, Col, Button } from "react-bootstrap";
 import axios from "axios";
 import { AxiosRequestConfig } from "axios";
 import "../../css/login.css";
+import { accountService } from "../../_services/account.service";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [credentials, setCredentials] = useState({
-    username: "rosalia.frami@hotmail.com",
-    password: "password",
+    username: "",
+    password: "",
   });
 
   const onChange = (e: any) => {
@@ -20,20 +24,25 @@ function Login() {
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    console.log("formulaire envoyé");
     console.log(credentials);
 
     var basicAuth =
       "Basic " + btoa(credentials.username + ":" + credentials.password);
     var url = "http://localhost:8245/api/login";
     var headers = {
-      Authorization: basicAuth ,
+      Authorization: basicAuth,
     };
 
     // rejectUnauthorized: false
     axios
-      .post(url, {}, { headers: headers } )
-      .then((res) => console.log(res))
+      .post(url, {}, { headers: headers })
+      .then((res) => {
+        console.log(res);
+        const JWT = res.data.JWT;
+        console.log(JWT);
+        accountService.saveToken(JWT);
+        navigate("/home");
+      })
       .catch((err) => console.log(err));
   };
 
@@ -49,9 +58,10 @@ function Login() {
             type="email"
             className="form-control"
             id="exampleInputEmail1"
-            name="email"
+            name="username"
             value={credentials.username}
             onChange={onChange}
+            required
           />
         </div>
         <div className="mb-3">
@@ -65,6 +75,7 @@ function Login() {
             name="password"
             value={credentials.password}
             onChange={onChange}
+            required
           />
         </div>
         <button
