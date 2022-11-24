@@ -8,7 +8,7 @@ import "../../css/login.css";
 
 function Login() {
   const [credentials, setCredentials] = useState({
-    username: "schuppe.anya@gmail.com",
+    username: "rosalia.frami@hotmail.com",
     password: "password",
   });
 
