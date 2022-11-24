@@ -17,15 +17,17 @@ class JWTHelper
 
     public function createJWT(User $user): string
     {
-        $payload = ["mercure" => [
-            "subscribe" => ["https://example.com/user/{$user->getId()}/{?topic}"],
-            "payload" => [
-                "email" => $user->getEmail(),
-                "userid" => $user->getId()
-            ]
-        ]];
+        // $payload = ["mercure" => [
+        //     "subscribe" => ["https://example.com/user/{$user->getId()}/{?topic}"],
+        //     "payload" => [
+        //         "email" => $user->getEmail(),
+        //         "userid" => $user->getId()
+        //     ]
+        // ]];
 
-        return JWT::encode($payload, $this->mercureSecret, 'HS256');
+        // return JWT::encode($payload, $this->mercureSecret, 'HS256');
+
+        return JWT::encode($user);
     }
 
     public function isJwtValid(string $jwt): bool

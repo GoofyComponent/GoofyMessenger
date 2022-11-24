@@ -5,6 +5,8 @@ import "./App.css";
 import Login from "./component/Login/login";
 import Home from "./component/Home/home";
 import Register from "./component/Register/register";
+import Dev from "./component/Dev/dev";
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/dev" element={<Dev />} />
         </Routes>
       </BrowserRouter>
     </>
