@@ -27,7 +27,7 @@ class JWTHelper
 
         // return JWT::encode($payload, $this->mercureSecret, 'HS256');
 
-        return JWT::encode($user);
+        return 'test';
     }
 
     public function isJwtValid(string $jwt): bool
