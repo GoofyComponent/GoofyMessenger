@@ -17,35 +17,34 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/api/login", name="app_login")
-     */
-    public function login(JWTHelper $helper, CookieHelper $cookieHelper): Response
-    {
-        /** @var $user User */
-        if ($user = $this->getUser()) {
-            return $this->json([
-                'JWT' => $helper->createJWT($user),
-                'status' => 'success',
-            ], 200, [
-                'set-cookie' => $cookieHelper->createMercureCookie($user)
-            ]);
-        }
+    // /**
+    //  * @Route("/api/login", name="app_login")
+    //  */
+    // public function login(JWTHelper $helper, CookieHelper $cookieHelper): Response
+    // {
+    //     $user = $this->getUser();
+    //     if ( null === $user ) {
+    //         return $this->json([
+    //             'status' => 'error',
+    //             'message' => 'User not found',
+    //         ]);
+    //     }
 
-        return $this->json([
-            'status' => 'error',
-            'message' => 'Bad credentials',
-            'Authorization' => 'Basic'
-        ]);
-    }
 
-    /**
-     * @Route("/api/logout", name="app_logout")
-     */
-    public function logout(): void
-    {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }
+    //     return $this->json([
+    //         'status' => 'error',
+    //         'message' => 'Bad credentials',
+    //         'Authorization' => 'Basic'
+    //     ]);
+    // }
+
+    // /**
+    //  * @Route("/api/logout", name="app_logout")
+    //  */
+    // public function logout(): void
+    // {
+    //     throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    // }
 
     /**
      *@Route("/api/register", name="app_register", methods={"POST"})
@@ -90,13 +89,15 @@ class SecurityController extends AbstractController
         }
     }
 
-    /**@Route(connexion réalisé avec succès) */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    /**
+     *@Route("/api/islog", name="app_islog", methods={"POST"})
+     */
+    public function isLogged(Request $request, JWTHelper $helper): Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            return new RedirectResponse($targetPath);
-        }
-        //on renvoie à la liste des utilisateurs
-        return new RedirectResponse($this->urlGenerator->generate('utilisateur_index'));
+        $jwt = $request->request->get('jwt');
+        $isLog = $helper->isJwtValid($jwt);
+        return $this->json([
+            'isLog' => $isLog
+        ]);
     }
 }
