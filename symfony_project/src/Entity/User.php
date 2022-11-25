@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Serializer;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -20,14 +21,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['user:read'])]
     private ?int $id = null;
 
-    #[Groups(['user:read'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[Groups(['user:read'])]
     #[ORM\Column]
     private array $roles = [];
 
@@ -37,22 +35,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Groups(['user:read'])]
     #[ORM\Column(length: 35)]
     private ?string $lastname = null;
     
-    #[Groups(['user:read'])]
     #[ORM\Column(length: 35)]
     private ?string $firstname = null;
 
+    
     #[ORM\ManyToMany(targetEntity: Conversation::class, mappedBy: 'users')]
+    #[Ignore]
     private Collection $conversations;
+
+    private ?string $lastMessage = null;
 
     public function __construct()
     {
         $this->conversations = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -151,11 +150,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Conversation>
      */
+    
     public function getConversations(): Collection
     {
         return $this->conversations;
     }
 
+    
     public function addConversation(Conversation $conversation): self
     {
         if (!$this->conversations->contains($conversation)) {
@@ -166,6 +167,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    
     public function removeConversation(Conversation $conversation): self
     {
         if ($this->conversations->removeElement($conversation)) {
@@ -173,6 +175,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getLastMessage(): ?string
+    {
+        return $this->lastMessage;
     }
 
 }
