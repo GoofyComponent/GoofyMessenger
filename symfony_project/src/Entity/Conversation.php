@@ -18,7 +18,7 @@ class Conversation
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'conversations')]
     private Collection $users;
 
-    #[ORM\OneToMany(mappedBy: 'convertation', targetEntity: Message::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'conversation', targetEntity: Message::class, orphanRemoval: true)]
     private Collection $messages;
 
     public function __construct()
@@ -68,7 +68,7 @@ class Conversation
     {
         if (!$this->messages->contains($message)) {
             $this->messages->add($message);
-            $message->setConvertation($this);
+            $message->setConversation($this);
         }
 
         return $this;
@@ -78,8 +78,8 @@ class Conversation
     {
         if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
-            if ($message->getConvertation() === $this) {
-                $message->setConvertation(null);
+            if ($message->getConversation() === $this) {
+                $message->setConversation(null);
             }
         }
 
