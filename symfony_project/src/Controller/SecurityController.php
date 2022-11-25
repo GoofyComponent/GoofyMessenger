@@ -17,34 +17,34 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/api/login", name="app_login")
-     */
-    public function login(JWTHelper $helper, CookieHelper $cookieHelper): Response
-    {
-        $user = $this->getUser();
-        if ( null === $user ) {
-            return $this->json([
-                'status' => 'error',
-                'message' => 'User not found',
-            ]);
-        }
+    // /**
+    //  * @Route("/api/login", name="app_login")
+    //  */
+    // public function login(JWTHelper $helper, CookieHelper $cookieHelper): Response
+    // {
+    //     $user = $this->getUser();
+    //     if ( null === $user ) {
+    //         return $this->json([
+    //             'status' => 'error',
+    //             'message' => 'User not found',
+    //         ]);
+    //     }
 
-        
-        return $this->json([
-            'status' => 'error',
-            'message' => 'Bad credentials',
-            'Authorization' => 'Basic'
-        ]);
-    }
 
-    /**
-     * @Route("/api/logout", name="app_logout")
-     */
-    public function logout(): void
-    {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }
+    //     return $this->json([
+    //         'status' => 'error',
+    //         'message' => 'Bad credentials',
+    //         'Authorization' => 'Basic'
+    //     ]);
+    // }
+
+    // /**
+    //  * @Route("/api/logout", name="app_logout")
+    //  */
+    // public function logout(): void
+    // {
+    //     throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    // }
 
     /**
      *@Route("/api/register", name="app_register", methods={"POST"})
@@ -92,7 +92,7 @@ class SecurityController extends AbstractController
     /**
      *@Route("/api/islog", name="app_islog", methods={"POST"})
      */
-    public function isLogged(Request $request ,JWTHelper $helper): Response
+    public function isLogged(Request $request, JWTHelper $helper): Response
     {
         $jwt = $request->request->get('jwt');
         $isLog = $helper->isJwtValid($jwt);

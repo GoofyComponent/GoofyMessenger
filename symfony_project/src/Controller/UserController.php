@@ -27,15 +27,19 @@ class UserController extends AbstractController
     #[Route('/api/users/{page}', name: 'app_user', requirements: ['page' => '\d+'])]
     public function index($page): Response
     {
-        if(!$this->getUser()) {
+        if (!$this->getUser()) {
             return $this->json([
                 'status' => 'error',
                 'message' => 'You need to be logged in to access this resource',
             ]);
         }
+        return $this->json([
+            'status' => 'Success',
+            'message' => 'You are logged in',
+        ]);
         dd($this->getUser());
         // page cant be less than 1
-        if($page < 1) {
+        if ($page < 1) {
             return $this->json([
                 'status' => 'error',
                 'message' => 'Page number must be greater than 0',
@@ -56,6 +60,5 @@ class UserController extends AbstractController
             'message' => 'You are logged in',
             'users' => $users,
         ]);
-        
     }
 }
