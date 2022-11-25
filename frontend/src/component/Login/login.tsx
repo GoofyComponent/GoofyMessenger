@@ -26,16 +26,18 @@ function Login() {
     e.preventDefault();
     console.log(credentials);
 
-    var basicAuth =
-      "Basic " + btoa(credentials.username + ":" + credentials.password);
     var url = "http://localhost:8245/api/login";
-    var headers = {
-      Authorization: basicAuth,
-    };
+    var config = {};
 
-    // rejectUnauthorized: false
     axios
-      .post(url, {}, { headers: headers })
+      .post(
+        url,
+        {
+          username: credentials.username,
+          password: credentials.password,
+        },
+        config
+      )
       .then((res) => {
         console.log(res);
         const JWT = res.data.JWT;
