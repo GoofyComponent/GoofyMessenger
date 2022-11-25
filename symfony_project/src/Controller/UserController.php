@@ -33,11 +33,6 @@ class UserController extends AbstractController
                 'message' => 'You need to be logged in to access this resource',
             ]);
         }
-        return $this->json([
-            'status' => 'Success',
-            'message' => 'You are logged in',
-        ]);
-        dd($this->getUser());
         // page cant be less than 1
         if ($page < 1) {
             return $this->json([
@@ -54,7 +49,6 @@ class UserController extends AbstractController
         // on souhaite le transformer en tableau json en evitant les circular reference
         $users = $this->serializer->serialize($users, 'json', ['groups' => 'user']);
         $users = json_decode($users, true);
-        dd($users);
         return $this->json([
             'status' => 'success',
             'message' => 'You are logged in',

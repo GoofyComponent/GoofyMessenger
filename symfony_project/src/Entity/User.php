@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Message;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -45,17 +45,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 35)]
     private ?string $firstname = null;
 
+    #[ORM\ManyToMany(targetEntity: Conversation::class, mappedBy: 'users')]
+    private Collection $conversations;
 
-    #[Groups(['user:write'])]
-    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class, orphanRemoval: true)]
-    private Collection $senderMessages;
-
-    #[Groups(['user:write'])]
-    #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: Message::class, orphanRemoval: true)]
-    private Collection $receiverMessages;
-
-    // #[Groups(['user:read'])]
-    // private ?string $lastmessage = null;
+    public function __construct()
+    {
+        $this->conversations = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -153,20 +149,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, Conversation>
      */
-    public function getSender(): Collection
+    public function getConversations(): Collection
     {
-        return $this->senderMessages;
-    }
-    
-    /**
-     * @return Collection<int, User>
-     */
-    public function getReceiver(): Collection
-    {
-        return $this->receiverMessages;
+        return $this->conversations;
     }
 
-    
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations->add($conversation);
+            $conversation->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversation(Conversation $conversation): self
+    {
+        if ($this->conversations->removeElement($conversation)) {
+            $conversation->removeUser($this);
+        }
+
+        return $this;
+    }
+
 }

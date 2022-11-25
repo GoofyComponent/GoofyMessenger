@@ -2,7 +2,6 @@
 
 namespace App\Factory;
 
-use App\Entity\User;
 use App\Entity\Message;
 use App\Repository\MessageRepository;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -41,10 +40,8 @@ final class MessageFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'created_at' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
+            'author' => self::faker()->text(),
             'content' => self::faker()->text(),
-            'sender' => UserFactory::random(),
-            'receiver' => UserFactory::random(),
         ];
     }
 
