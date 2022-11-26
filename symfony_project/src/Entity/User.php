@@ -47,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Ignore]
     private Collection $conversations;
 
-    private ?string $lastMessage = null;
+    private ?array $lastMessage = null;
 
     public function __construct()
     {
@@ -178,12 +178,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getLastMessage(): ?string
+    public function getLastMessage(): ?array
     {
         return $this->lastMessage;
     }
 
-    public function setLastMessage(?string $lastMessage): self
+    public function setLastMessage(?array $lastMessage): self
     {
         $this->lastMessage = $lastMessage;
 

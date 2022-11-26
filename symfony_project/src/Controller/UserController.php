@@ -48,7 +48,7 @@ class UserController extends AbstractController
             $conversations = $this->conversationRepository->findConversationsByUsers([$this->getUser(), $user]);
             if (count($conversations) > 0) {
                 // dd($conversations[0]->getMessages()->last()->getContent());
-                $user->setLastMessage($conversations[0]->getMessages()->last()->getContent());
+                $user->setLastMessage(["message" => $conversations[0]->getMessages()->last()->getContent(), "idConversation" => $conversations[0]->getId()]);
             }
         }
         $data = $serializer->serialize($users, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
