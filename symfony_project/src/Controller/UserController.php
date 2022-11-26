@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserController extends AbstractController
 {
 
-    public function __construct(private UserRepository $userRepository , private ConversationRepository $conversationRepository)
+    public function __construct(private UserRepository $userRepository, private ConversationRepository $conversationRepository)
     {
     }
 
@@ -42,9 +42,18 @@ class UserController extends AbstractController
         // on serialize les données
         $serializer = new Serializer([new ObjectNormalizer()], [new XmlEncoder(), new JsonEncoder()]);
         $users = $this->userRepository->findByPage($page);
-        $data = $serializer->serialize($users, 'json',[AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations','password','userIdentifier','email','roles']]);
+        // on retire l'utilisateur courant de la liste
+        $users = array_filter($users, fn ($user) => $user->getId() !== $this->getUser()->getId());
+        foreach ($users as $user) {
+            $conversations = $this->conversationRepository->findConversationsByUsers([$this->getUser(), $user]);
+            if (count($conversations) > 0) {
+                // dd($conversations[0]->getMessages()->last()->getContent());
+                $user->setLastMessage($conversations[0]->getMessages()->last()->getContent());
+            }
+        }
+        $data = $serializer->serialize($users, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
+
         $data = json_decode($data, true);
-        // $users = $this->userRepository->findByPage($page);
         return $this->json([
             'status' => 'success',
             'message' => 'You are logged in',
@@ -52,14 +61,14 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/api/get/conversation', name: 'app_get_conversation' , methods: ['POST'])]
+    #[Route('/api/get/conversation', name: 'app_get_conversation', methods: ['POST'])]
     public function conversation(Request $request): Response
     {
 
         $user = $this->getUser();
         $user2 = $this->userRepository->findOneBy(['id' => $request->request->get('id')]);
 
-        if (!$user2){
+        if (!$user2) {
             return $this->json([
                 'status' => 'error',
                 'message' => 'User not found',

@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -37,11 +38,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 35)]
     private ?string $lastname = null;
-    
+
     #[ORM\Column(length: 35)]
     private ?string $firstname = null;
 
-    
+
     #[ORM\ManyToMany(targetEntity: Conversation::class, mappedBy: 'users')]
     #[Ignore]
     private Collection $conversations;
@@ -150,13 +151,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Conversation>
      */
-    
+
     public function getConversations(): Collection
     {
         return $this->conversations;
     }
 
-    
+
     public function addConversation(Conversation $conversation): self
     {
         if (!$this->conversations->contains($conversation)) {
@@ -167,7 +168,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    
+
     public function removeConversation(Conversation $conversation): self
     {
         if ($this->conversations->removeElement($conversation)) {
@@ -178,10 +179,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getLastMessage(): ?string
-    {   
-        $conversations = $this->getConversations();
-
+    {
         return $this->lastMessage;
     }
 
+    public function setLastMessage(?string $lastMessage): self
+    {
+        $this->lastMessage = $lastMessage;
+
+        return $this;
+    }
 }

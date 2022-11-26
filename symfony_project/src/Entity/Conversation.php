@@ -61,7 +61,12 @@ class Conversation
      */
     public function getMessages(): Collection
     {
-        return $this->messages;
+        // on trie les messages par date de création croissante 
+        $iterator = $this->messages->getIterator();
+        $iterator->uasort(function (Message $a, Message $b) {
+            return $a->getCreatedAt() <=> $b->getCreatedAt();
+        });
+        return new ArrayCollection(iterator_to_array($iterator));
     }
 
     public function addMessage(Message $message): self
