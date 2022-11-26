@@ -63,4 +63,9 @@ class ConversationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findOneByUsers($value): ?Conversation
+    {
+        dd($value);
+    }
 }

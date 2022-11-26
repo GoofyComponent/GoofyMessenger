@@ -24,6 +24,9 @@ class Message
     #[ORM\JoinColumn(nullable: false)]
     private ?Conversation $conversation = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class Message
     public function setConversation(?Conversation $conversation): self
     {
         $this->conversation = $conversation;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }

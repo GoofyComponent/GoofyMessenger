@@ -47,7 +47,9 @@ final class ConversationFactory extends ModelFactory
     {
         // see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
         return $this
-            // ->afterInstantiate(function(Conversation $conversation): void {})
+            // ->afterInstantiate(function(Conversation $conversation): void {
+            //     // on crée une conversation avec un autre utilisateur
+            // })
         ;
     }
 

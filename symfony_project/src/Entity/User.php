@@ -178,7 +178,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getLastMessage(): ?string
-    {
+    {   
+        $conversations = $this->getConversations();
+
         return $this->lastMessage;
     }
 

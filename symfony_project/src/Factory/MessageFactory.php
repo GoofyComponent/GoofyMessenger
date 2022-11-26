@@ -38,10 +38,19 @@ final class MessageFactory extends ModelFactory
 
     protected function getDefaults(): array
     {
+        $conversation = ConversationFactory::random();
+        $user = $conversation->getUsers()->get(rand(0, 1));
+        $auth= $user->getLastname() . ' ' . $user->getFirstname();
+        //DateTimeImmutable
+        $date = new \DateTimeImmutable();
+        $date = $date->setTimestamp(rand(0, time()));
+
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'author' => self::faker()->text(),
             'content' => self::faker()->text(),
+            'author' => $auth,
+            'conversation' => $conversation,
+            'created_at' =>  $date,
         ];
     }
 
