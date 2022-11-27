@@ -64,29 +64,47 @@ class UserController extends AbstractController
     #[Route('/api/get/conversation', name: 'app_get_conversation', methods: ['POST'])]
     public function conversation(Request $request): Response
     {
-
-        $user = $this->getUser();
-        $user2 = $this->userRepository->findOneBy(['id' => $request->request->get('id')]);
-
-        if (!$user2) {
-            return $this->json([
-                'status' => 'error',
-                'message' => 'User not found',
-            ]);
-        }
-
-        if (!$user) {
+        if (!$this->getUser()) {
             return $this->json([
                 'status' => 'error',
                 'message' => 'You need to be logged in to access this resource',
             ]);
         }
 
-        $conversation = $this->conversationRepository->findOneByUsers(['user1' => $user, 'user2' => $user2]);
+        $conversation = $this->conversationRepository->find($request->request->get('id'));
+        if (!$conversation) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Conversation not found',
+            ]);
+        }
+        $serializer = new Serializer([new ObjectNormalizer()], [new XmlEncoder(), new JsonEncoder()]);
+
+        // si c'est pas la conversation de l'utilisateur courant
+        foreach ($conversation->getUsers() as $user) {
+            if ($user->getId() === $this->getUser()->getId()) {
+                $message = $conversation->getMessages();
+                // date en français dans les messages
+                $message = $serializer->serialize($message, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversation', 'id', 'createdAt']]);
+                $me = $serializer->serialize($this->getUser(), 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
+                $other = $serializer->serialize($user->getId() === $this->getUser()->getId() ? $conversation->getUsers()[1] : $conversation->getUsers()[0], 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
+                $conversationReconstructed = [
+                    'id' => $conversation->getId(),
+                    'me' => json_decode($me, true),
+                    'other' => json_decode($other, true),
+                    'messages' => json_decode($message, true),
+                ];
+                return $this->json([
+                    'status' => 'success',
+                    'message' => 'Conversation found',
+                    'conversation' => $conversationReconstructed,
+                ]);
+            }
+        }
 
         return $this->json([
-            'status' => 'success',
-            'message' => 'You are logged in',
+            'status' => 'error',
+            'message' => 'You are not allowed to access this conversation',
         ]);
     }
 }

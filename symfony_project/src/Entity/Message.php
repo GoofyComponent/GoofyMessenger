@@ -27,6 +27,9 @@ class Message
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
+    //date en français
+    private ?string $created_at_fr = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,5 +81,11 @@ class Message
         $this->created_at = $created_at;
 
         return $this;
+    }
+
+    public function getCreatedAtFr(): ?string
+    {
+        $this->created_at_fr = $this->created_at->format('d/m/Y à H:i:s');
+        return $this->created_at_fr;
     }
 }
