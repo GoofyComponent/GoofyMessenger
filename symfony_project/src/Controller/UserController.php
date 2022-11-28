@@ -5,12 +5,15 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Repository\ConversationRepository;
+use App\Service\CookieHelper;
+use App\Service\JWTHelper;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -19,9 +22,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserController extends AbstractController
 {
 
-    public function __construct(private UserRepository $userRepository, private ConversationRepository $conversationRepository)
+    public function __construct(private UserRepository $userRepository, private ConversationRepository $conversationRepository, JWTHelper $jwtHelper, CookieHelper $cookieHelper)
     {
+        $this->jwtHelper = $jwtHelper;
+        $this->cookieHelper = $cookieHelper;
     }
+
 
     #[Route('/api/users/{page}', name: 'app_user', requirements: ['page' => '\d+'])]
     public function index($page): Response
@@ -54,11 +60,12 @@ class UserController extends AbstractController
         $data = $serializer->serialize($users, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
 
         $data = json_decode($data, true);
-        return $this->json([
+        $json = $this->json([
             'status' => 'success',
             'message' => 'You are logged in',
             'users' => $data,
         ]);
+        return $json;
     }
 
     #[Route('/api/get/conversation', name: 'app_get_conversation', methods: ['POST'])]
@@ -87,18 +94,25 @@ class UserController extends AbstractController
                 // date en français dans les messages
                 $message = $serializer->serialize($message, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversation', 'id', 'createdAt']]);
                 $me = $serializer->serialize($this->getUser(), 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
-                $other = $serializer->serialize($user->getId() === $this->getUser()->getId() ? $conversation->getUsers()[1] : $conversation->getUsers()[0], 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
+                $other = $user->getId() === $this->getUser()->getId() ? $conversation->getUsers()[1] : $conversation->getUsers()[0];
+                // $jwt = $this->jwtHelper->createJWT($other);
+                $cookie = $this->cookieHelper->createMercureCookie($other);
+                $other = $serializer->serialize($other, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
                 $conversationReconstructed = [
                     'id' => $conversation->getId(),
                     'me' => json_decode($me, true),
                     'other' => json_decode($other, true),
                     'messages' => json_decode($message, true),
                 ];
-                return $this->json([
+                $rep = new Response();
+                $json = $this->json([
                     'status' => 'success',
                     'message' => 'Conversation found',
                     'conversation' => $conversationReconstructed,
                 ]);
+                $rep->headers->setCookie($cookie);
+                $rep->setContent($json->getContent());
+                return $rep;
             }
         }
 

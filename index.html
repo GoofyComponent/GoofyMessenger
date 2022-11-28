@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <input type="text" id="input" placeholder="Enter your name">
+
+
+    <div id="app">
+        Hello
+    
+    </div>
+
+
+    <script>
+        const JWT = "eyJhbGciOiJIUzI1NiJ9.eyJtZXJjdXJlIjp7InN1YnNjcmliZSI6WyIqIl0sInB1Ymxpc2giOlsiKiJdfX0.STX4o8B5UzwDLhobQ_WJ447HkU9C1a2G_B0hmO3Ps4A";
+        const app = document.getElementById('app');
+        const url = new URL('http://localhost:9090/.well-known/mercure');
+        document.cookie = `mercureAuthorization=${JWT}; Secure; SameSite=Strict`;
+        url.searchParams.append('topic', 'https://example.com/my-private-topic');
+        const eventSource = new EventSource(url);
+        eventSource.onmessage = e => {
+            const data = JSON.parse(e.data);
+            console.log(data);
+        };
+        // en ecoutant l'input on publie un message sur le topic
+    </script>
+</body>
+</html>

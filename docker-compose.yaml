@@ -54,7 +54,7 @@ services:
 
     caddy:
         image: dunglas/mercure
-        restart: unless-stopped
+        restart: on-failure
         container_name: mercure_docker
         environment:
             # Uncomment the following line to disable HTTPS
@@ -62,11 +62,12 @@ services:
             MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
             MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
             MERCURE_EXTRA_DIRECTIVES:
-                cors_origins "http://localhost:5432"
-                cors_origins "http://localhost:8245"
-#                anonymous
+                # cors_origins "http://localhost:5432"
+                # cors_origins "http://localhost:8245"
+                # cors_origins "http://localhost:5500"
+                cors_origins "*"
         # Uncomment the following line to enable the development mode
-#        command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+        command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
         ports:
             - "9090:80"
             - "443:443"
