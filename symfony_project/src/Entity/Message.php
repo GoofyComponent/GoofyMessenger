@@ -2,62 +2,71 @@
 
 namespace App\Entity;
 
+use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\MessageRepository;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
-{   
+{
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Ignore]
     private ?int $id = null;
 
-    #[ORM\ManyToOne] 
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $sender = null;
+    #[ORM\Column(length: 255)]
+    private ?string $author = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $receiver = null;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $content = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    
+    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Conversation $conversation = null;
+
+    #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    
-    private ?string $content = null;
+    //date en français
+    private ?string $created_at_fr = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getSender(): ?User
+    public function getAuthor(): ?string
     {
-        return $this->sender;
+        return $this->author;
     }
 
-    public function setSender(?User $sender): self
+    public function setAuthor(string $author): self
     {
-        $this->sender = $sender;
+        $this->author = $author;
 
         return $this;
     }
 
-    public function getReceiver(): ?User
+    public function getContent(): ?string
     {
-        return $this->receiver;
+        return $this->content;
     }
 
-    public function setReceiver(?User $receiver): self
+    public function setContent(string $content): self
     {
-        $this->receiver = $receiver;
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getConversation(): ?Conversation
+    {
+        return $this->conversation;
+    }
+
+    public function setConversation(?Conversation $conversation): self
+    {
+        $this->conversation = $conversation;
 
         return $this;
     }
@@ -74,15 +83,9 @@ class Message
         return $this;
     }
 
-    public function getContent(): ?string
+    public function getCreatedAtFr(): ?string
     {
-        return $this->content;
-    }
-
-    public function setContent(?string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
+        $this->created_at_fr = $this->created_at->format('d/m/Y à H:i:s');
+        return $this->created_at_fr;
     }
 }

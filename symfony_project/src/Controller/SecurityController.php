@@ -68,10 +68,7 @@ class SecurityController extends AbstractController
             $user->setLastname($request->request->get('lastname'));
 
             $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $request->request->get('password')
-                )
+                password_hash($request->request->get('password'), PASSWORD_BCRYPT)
             );
             $entityManager->persist($user);
             $entityManager->flush();
@@ -99,5 +96,33 @@ class SecurityController extends AbstractController
         return $this->json([
             'isLog' => $isLog
         ]);
+    }
+
+    /**
+     * @Route("/api/login", name="app_login")
+     */
+    public function login(JWTHelper $helper, HubInterface $hub, CookieHelper $cookieHelper): Response
+    {
+        /** @var $user User */
+        // if ($user = $this->getUser()) {
+        //     return $this->json([
+        //         'JWT' => $helper->createJWT($user)
+        //     ], 200, [
+        //         'set-cookie' => $cookieHelper->createMercureCookie($user)
+        //     ]);
+        // }
+        dd($this->getUser());
+        return $this->json([
+            'message' => 'Bad credentials',
+            'Authorization' => 'Basic'
+        ]);
+    }
+
+    /**
+     * @Route("/logout", name="app_logout")
+     */
+    public function logout(): void
+    {
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }

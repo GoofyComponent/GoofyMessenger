@@ -2,16 +2,18 @@
 
 namespace App\Entity;
 
-use App\Entity\Message;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Serializer;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -20,14 +22,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['user:read'])]
     private ?int $id = null;
 
-    #[Groups(['user:read'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[Groups(['user:read'])]
     #[ORM\Column]
     private array $roles = [];
 
@@ -37,26 +36,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Groups(['user:read'])]
     #[ORM\Column(length: 35)]
     private ?string $lastname = null;
-    
-    #[Groups(['user:read'])]
+
     #[ORM\Column(length: 35)]
     private ?string $firstname = null;
 
 
-    #[Groups(['user:write'])]
-    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class, orphanRemoval: true)]
-    private Collection $senderMessages;
+    #[ORM\ManyToMany(targetEntity: Conversation::class, mappedBy: 'users')]
+    #[Ignore]
+    private Collection $conversations;
 
-    #[Groups(['user:write'])]
-    #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: Message::class, orphanRemoval: true)]
-    private Collection $receiverMessages;
+    private ?array $lastMessage = null;
 
-    // #[Groups(['user:read'])]
-    // private ?string $lastmessage = null;
-
+    public function __construct()
+    {
+        $this->conversations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -153,20 +149,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, Conversation>
      */
-    public function getSender(): Collection
+
+    public function getConversations(): Collection
     {
-        return $this->senderMessages;
-    }
-    
-    /**
-     * @return Collection<int, User>
-     */
-    public function getReceiver(): Collection
-    {
-        return $this->receiverMessages;
+        return $this->conversations;
     }
 
-    
+
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations->add($conversation);
+            $conversation->addUser($this);
+        }
+
+        return $this;
+    }
+
+
+    public function removeConversation(Conversation $conversation): self
+    {
+        if ($this->conversations->removeElement($conversation)) {
+            $conversation->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getLastMessage(): ?array
+    {
+        return $this->lastMessage;
+    }
+
+    public function setLastMessage(?array $lastMessage): self
+    {
+        $this->lastMessage = $lastMessage;
+
+        return $this;
+    }
 }
