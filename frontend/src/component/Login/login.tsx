@@ -30,22 +30,21 @@ function Login() {
     var config = {};
 
     axios
-      .post(
-        url,
-        {
-          username: credentials.username,
-          password: credentials.password,
-        },
-        config
-      )
+      .post(url, {
+        username: credentials.username,
+        password: credentials.password,
+      })
       .then((res) => {
         console.log(res);
-        const JWT = res.data.JWT;
+        const JWT = res.data.token;
         console.log(JWT);
         accountService.saveToken(JWT);
         navigate("/home");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        console.log("error");
+      });
   };
 
   return (
