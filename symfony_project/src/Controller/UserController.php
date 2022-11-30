@@ -60,9 +60,14 @@ class UserController extends AbstractController
         $data = $serializer->serialize($users, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
 
         $data = json_decode($data, true);
+        $content = 'Page number ' . $page;
+        // si on a moins de 10 utilisateurs, $content = "Dernière page"
+        if (count($users) < 10) {
+            $content = 'Dernière page';
+        }
         $json = $this->json([
             'status' => 'success',
-            'message' => 'You are logged in',
+            'page' => $content,
             'users' => $data,
         ]);
         return $json;

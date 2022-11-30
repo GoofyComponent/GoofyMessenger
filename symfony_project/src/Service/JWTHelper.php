@@ -30,7 +30,6 @@ class JWTHelper
                 "userid" => $this->user->getId(),
             ]
         ]];
-        dd($payload);
         $jwt = JWT::encode($payload, $this->mercureSecret, 'HS256');
         return $jwt;
     }
