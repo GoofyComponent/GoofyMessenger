@@ -21,13 +21,19 @@ class JWTHelper
     public function createJWT(User $user): string
     {
         // private
-        $this->user = $this->tokenStorage->getToken()->getUser();
+        // $this->user = $this->tokenStorage->getToken()->getUser();
+        // $payload = ["mercure" => [
+        //     "subscribe" => ["https://conversation/user/{$user->getId()}/
+        //     "payload" => [
+        //         "username" => $this->user->getEmail(),
+        //         "userid" => $this->user->getId(),
+        //     ]
+        // ]];
         $payload = ["mercure" => [
-            "subscribe" => ["https://conversation/user/{$user->getId()}/{$this->user->getId()}"],
-            "publish" => ["https://conversation/user/{$this->user->getId()}/{$user->getId()}"],
+            "subscribe" => ["https://conversation/user/{$user->getId()}/{?topic}"],
             "payload" => [
-                "username" => $this->user->getEmail(),
-                "userid" => $this->user->getId(),
+                "username" => $user->getEmail(),
+                "userid" => $user->getId()
             ]
         ]];
         $jwt = JWT::encode($payload, $this->mercureSecret, 'HS256');
