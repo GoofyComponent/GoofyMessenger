@@ -15,6 +15,8 @@ import {
   } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from "axios";
+import {SYMFONY_URL} from '@env'
+
 
 
 
@@ -22,7 +24,7 @@ export default function Login({navigation}) {
 
     
     const [credentials, setCredentials] = useState({
-        username: 'amaya46@hotmail.com',
+        username: 'lorenza.schultz@hotmail.com',
         password: 'password'
     });
 
@@ -37,7 +39,7 @@ export default function Login({navigation}) {
     
     const onSubmit = () => {
 
-        var url = "http://172.20.10.2:8245/api/login";
+        var url = SYMFONY_URL+"/api/login";
 
         var config = {
             method: 'post',

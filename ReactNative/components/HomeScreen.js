@@ -21,44 +21,30 @@ const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
-// const getData = async () => {
-//     try {
-//         const value = await AsyncStorage.getItem('token');
-//         if(value === null) {
-//             // on first launch, value will be null so we need to navigate to login screen and we can't go back to home until login
-//             navigation.navigate('Login');
-//         }
 
-//         var url = SYMFONY_URL + "/api/users/1";
-//         var config = {
-//             headers: {
-//                 'Authorization': 'Bearer ' + value,
-//             }
-//         };
-
-//         axios.get(url, config)
-//         .then(function (response) {
-//             let messages = response.data.users;
-//             // messages to array
-//             messages = Object.values(messages);
-//             setUsers(messages);
-//         })
-//         .catch(function (error) {
-//             console.log(error);
-//         });
-        
-
-//     } catch(e) {
-        
-//     }
-// }
 export default function HomeScreen({ navigation }) {
     const [users, setUsers] = useState([]);
     // const [jwt, setJwt] = useState('');
 
+    const [refreshing, setRefreshing] = useState(false);
+
+    // remove jwt from async storage
+    // const logout = async () => {
+    //     try {
+    //         await AsyncStorage.removeItem('token');
+    //         navigation.navigate('Login');
+    //     } catch(e) {
+    //         console.log(e);
+    //     }
+    // }
+
     useEffect(() => {
         let jwtPromise = getJWT();
         jwtPromise.then((jwt) => {
+            // if jwt undefined, redirect to login
+            if(!jwt) {
+                navigation.navigate('Login');
+            }
             var url = SYMFONY_URL + "/api/users/1";
             var config = {
                 headers: {
@@ -77,18 +63,15 @@ export default function HomeScreen({ navigation }) {
                 console.log(error);
             });
         });
-    }, []);
+    }, [refreshing]);
 
 
 
-    const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        // on attend la réponde de getData
         // getData();
         wait(2000).then(() => setRefreshing(false));
-        // wait(2000).then(() => setRefreshing(false));
       }, []);
 
     const Stack = createNativeStackNavigator();
@@ -118,23 +101,6 @@ export default function HomeScreen({ navigation }) {
         </SafeAreaView>        
     );
 }
-
-// return (
-//     <SafeAreaView style={styles.container}>
-//       <ScrollView
-//         contentContainerStyle={styles.scrollView}
-//         refreshControl={
-//           <RefreshControl
-//             refreshing={refreshing}
-//             onRefresh={onRefresh}
-//           />
-//         }
-//       >
-//         <Text>Pull down to see RefreshControl indicator</Text>
-//       </ScrollView>
-//     </SafeAreaView>
-//   );
-
 const styles = StyleSheet.create({
     container: {
       flex: 1,
