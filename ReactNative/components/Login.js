@@ -1,7 +1,8 @@
 
 import { StatusBar } from 'expo-status-bar';
-import * as React from 'react';
 import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as React from 'react';
 import {
     View,
     TextInput,
@@ -12,20 +13,20 @@ import {
     TextInputProps,
     Button,
   } from 'react-native';
-import { ValidationOptions, FieldError } from 'react-hook-form'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from "axios";
-import { AxiosRequestConfig } from 'axios';
-import { Buffer } from 'buffer';
 
 
-export default function Login(){
+
+export default function Login({navigation}) {
 
     
     const [credentials, setCredentials] = useState({
         username: 'amaya46@hotmail.com',
         password: 'password'
     });
+
+    const [invalid, setInvalid] = useState(false);
     
     const onChange = (e,name) => {
         setCredentials({
@@ -49,8 +50,14 @@ export default function Login(){
 
         axios(config)
         .then(function (response) {
-            console.log(JSON.stringify(response.data));
+            if (response.data.token) {
+                AsyncStorage.setItem('token', response.data.token);
+                navigation.navigate('Home');
+            }
         })
+        .catch(function (error) {
+            setInvalid(true);
+        });
             
         
         
@@ -60,13 +67,14 @@ export default function Login(){
     return(
         <View style={styles.container}>
             <Text>Login</Text>
+            {invalid && <Text style={styles.invalid}>Invalid Credentials</Text>}
             <TextInput placeholder="Email" name="username" value={credentials.username} onChangeText={e =>onChange(e,'username')} style={styles.input} />
             <TextInput placeholder="Password" name="password" value={credentials.password} onChangeText={e =>onChange(e,"password")} style={styles.input} />
-            <Button title="Login" onPress={onSubmit} style={styles.button} />
-            <Text>{credentials.username}</Text>
-            <Text>{credentials.password}</Text>
-
+            <Button title="Connexion" onPress={onSubmit} style={styles.button} />
             <StatusBar/>
+            {/*  Pas de compte ? En créer un*/}
+            <Text>Pas de compte ?</Text>
+            <Button title="S'inscrire" onPress={() => navigation.navigate('Register')} />
         </View>            
     );
 }

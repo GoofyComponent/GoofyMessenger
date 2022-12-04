@@ -5,9 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-
 import  HomeScreen  from './components/HomeScreen';
 import Login from './components/Login';
+import Register from './components/Register';
 
 export default function App() {
 
@@ -19,6 +19,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         {/* login component but there is no arrow to return home */}
         <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+        <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>
     </NavigationContainer>
   );
