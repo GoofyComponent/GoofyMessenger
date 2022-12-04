@@ -39,6 +39,7 @@ export default function HomeScreen({ navigation }) {
     // }
 
     useEffect(() => {
+        console.log('useEffect');
         let jwtPromise = getJWT();
         jwtPromise.then((jwt) => {
             // if jwt undefined, redirect to login
@@ -60,7 +61,12 @@ export default function HomeScreen({ navigation }) {
                 setUsers(messages);
             })
             .catch(function (error) {
-                console.log(error);
+                if(error.response.data.message === "Expired JWT Token") {
+                    navigation.navigate('Login');
+                }
+                if(error.response.data.message === "Invalid JWT Token") {
+                    navigation.navigate('Login');
+                }
             });
         });
     }, [refreshing]);

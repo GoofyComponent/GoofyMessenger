@@ -49,7 +49,6 @@ export default function Login({navigation}) {
             },
             data: JSON.stringify(credentials)
         };
-
         axios(config)
         .then(function (response) {
             if (response.data.token) {
@@ -58,7 +57,9 @@ export default function Login({navigation}) {
             }
         })
         .catch(function (error) {
-            setInvalid(true);
+            if(error.data.message === "Invalid credentials") {
+                setInvalid(true);
+            }
         });
             
         
