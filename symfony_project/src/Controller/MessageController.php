@@ -50,12 +50,16 @@ class MessageController extends AbstractController
 
         $update = new Update(
             [
-                "https://conversation/user/{$id}/{$IdUser}",
+                "https://example.com/my-private-topic",
+                "https://conversation/user/{$IdUser}/?topic=" . urlencode("https://example.com/my-private-topic"),
             ],
             json_encode([
+                "username" => $user->getEmail(),
+                "userid" => $user->getId(),
                 'message' => $content,
                 'date' => $date->format('Y-m-d H:i:s'),
-            ])
+            ]),
+            true
         );
 
         $hub->publish($update);
@@ -109,5 +113,24 @@ class MessageController extends AbstractController
             'other' => $conversation->getUsers()->filter(fn ($user) => $user->getId() !== $this->getUser()->getId())->first()->getLastName() . ' ' . $conversation->getUsers()->filter(fn ($user) => $user->getId() !== $this->getUser()->getId())->first()->getFirstName(),
             'messages' => $jsonContent
         ]);
+    }
+
+    #[Route('/api/mercureAuthorization', name: 'mercure_authorization', methods: 'GET')]
+    public function getMercureJWT(CookieHelper $cookieHelper, Request $request): Response
+    {
+        if (!$this->getUser()) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'You need to be logged in to access this resource',
+            ]);
+        }
+        $cookie = $cookieHelper->createMercureCookie($this->getUser());
+        $response = new Response();
+        $response->headers->setCookie($cookie);
+        $json = json_encode([
+            'mercureAuthorization' => $cookie->getValue(),
+        ]);
+        $response->setContent($json);
+        return $response;
     }
 }
