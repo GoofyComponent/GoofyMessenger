@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import  HomeScreen  from './components/HomeScreen';
 import Login from './components/Login';
 import Register from './components/Register';
-
+import Chat from './components/chat/Chat';
 import Logout from './components/Logout';
 
 export default function App() {
@@ -30,6 +30,7 @@ export default function App() {
         {/* login component but there is no arrow to return home */}
         <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Chat" component={Chat} />
       </Stack.Navigator>
     </NavigationContainer>
   );
