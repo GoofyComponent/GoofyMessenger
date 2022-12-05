@@ -4,6 +4,7 @@ import { Form, Row, Container, Col, Button } from "react-bootstrap";
 import "./App.css";
 import Login from "./component/Login/login";
 import Home from "./component/Home/home";
+
 import Register from "./component/Register/register";
 import Dev from "./component/Dev/dev";
 
@@ -29,6 +30,7 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
+
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dev" element={<Dev />} />

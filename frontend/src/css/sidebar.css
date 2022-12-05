@@ -1,7 +1,18 @@
+.sidebarcol {
+  height: 100vh;
+  background-color: #0b3954;
+}
+.messagecol {
+  height: 85vh;
+}
+.bottombarcol {
+  height: 15vh;
+  background-color: #0b3954;
+}
 .sideBar {
   background-color: #0b3954;
   width: 100%;
-
+  height: 100%;
   color: white;
   overflow: hidden;
   z-index: 1;
@@ -49,7 +60,7 @@ input[type="search"]::-webkit-search-cancel-button {
   padding: 0;
   list-style: none;
   overflow-y: scroll;
-  height: 600px;
+  height: 80vh;
 }
 .contactList::-webkit-scrollbar {
   width: 5px;

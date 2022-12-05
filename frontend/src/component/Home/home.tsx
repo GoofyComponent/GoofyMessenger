@@ -4,26 +4,31 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Row, Container, Col, Button } from "react-bootstrap";
 import axios from "axios";
 import "../../css/login.css";
+import "../../css/bottombar.css";
 import Sidebar from "../SideBar/sideBar";
+
 import BottomBar from "../BottomBar/BottomBar";
 import MessageListe from "../MessageListe/messageListe";
 
 function Home() {
   return (
-    <div className="div">
+    <div className="container-fluid">
       <div className="row">
-        <div className="col-3">
+        <div className="col-3 sidebarcol">
           <Sidebar></Sidebar>
         </div>
         <div className="col-9">
-          <div className="container">
+          <div className="container-fluid ">
             <div className="row">
-              <div className="col-12">
-                <MessageListe></MessageListe>
+              <div className="col-12 messagecol">
+                {/* <MessageListe></MessageListe> */}
+                <div>messagelist</div>
               </div>
             </div>
+          </div>
+          <div className="container-fluid">
             <div className="row">
-              <div className="col-12">
+              <div className="col-12 bottombarcol">
                 <BottomBar></BottomBar>
               </div>
             </div>

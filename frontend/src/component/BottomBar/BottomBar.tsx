@@ -3,19 +3,19 @@ import "../../css/bottombar.css";
 import TextareaAutosize from "react-textarea-autosize";
 
 function BottomBar() {
-  function growUp() {
-    var barreBottom = document.getElementById("bottomBar");
-    var textareaMsg = document.getElementById("textareaMsg");
+  //   function growUp() {
+  //     var barreBottom = document.getElementById("bottomBar");
+  //     var textareaMsg = document.getElementById("textareaMsg");
 
-    if (barreBottom != null && textareaMsg != null) {
-      var textareaHeight = parseInt(textareaMsg.style.height);
-      var current = parseInt(barreBottom.style.maxHeight);
+  //     if (barreBottom != null && textareaMsg != null) {
+  //       var textareaHeight = parseInt(textareaMsg.style.height);
+  //       var current = parseInt(barreBottom.style.maxHeight);
 
-      current = textareaHeight + 40;
+  //       current = textareaHeight + 40;
 
-      barreBottom.style.maxHeight = current + "px";
-    }
-  }
+  //       barreBottom.style.maxHeight = current + "px";
+  //     }
+  //   }
 
   // var yourTextArea = document.getElementById("textareaMsg");
   // if (yourTextArea != null) {
@@ -31,19 +31,14 @@ function BottomBar() {
   // }
 
   return (
-    <div
-      className="Row bottomBar"
-      id="bottomBar"
-      style={{ maxHeight: "100px" }}
-    >
-      <div className="col bottomBox">
-        <TextareaAutosize
+    <div className="Row bottomBar" id="bottomBar">
+      <div className="col h-100 bottomBox">
+        <textarea
           autoFocus
-          onHeightChange={growUp}
-          maxRows={10}
           id="textareaMsg"
           maxLength={401}
           spellCheck="true"
+          className="h-100 w-100"
         />
       </div>
     </div>
