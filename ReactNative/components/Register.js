@@ -12,7 +12,7 @@ import {
     Button,
   } from 'react-native';
 
-export default function Register() {
+export default function Register({navigation}) {
 
     return(
         <View>
