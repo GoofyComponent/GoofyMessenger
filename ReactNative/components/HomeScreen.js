@@ -50,7 +50,7 @@ export default function HomeScreen({ navigation }) {
                 // messages to array
                 messages = Object.values(messages);
                 setUsers(messages);
-                // console.log(messages);
+                console.log(messages);
             })
             .catch(function (error) {
                 if(error.response.data.message === "Expired JWT Token") {
