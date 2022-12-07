@@ -82,7 +82,16 @@ class MessageController extends AbstractController
             ]);
         }
         $target_user  = $userRepository->find($IdUser);
-        $conversation = $conversationRepository->findConversationsByUsers([$this->getUser(), $target_user])[0];
+        $conversation = $conversationRepository->findConversationsByUsers([$this->getUser(), $target_user]);
+
+        if (count($conversation) <= 0) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Conversation not found',
+            ]);
+        }
+        $conversation = $conversation[0];
+
         if (!$conversation) {
             return $this->json([
                 'status' => 'error',
