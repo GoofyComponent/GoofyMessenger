@@ -28,18 +28,9 @@ export default function HomeScreen({ navigation }) {
 
     const [refreshing, setRefreshing] = useState(false);
 
-    // remove jwt from async storage
-    // const logout = async () => {
-    //     try {
-    //         await AsyncStorage.removeItem('token');
-    //         navigation.navigate('Login');
-    //     } catch(e) {
-    //         console.log(e);
-    //     }
-    // }
+    
 
     useEffect(() => {
-        console.log('useEffect');
         let jwtPromise = getJWT();
         jwtPromise.then((jwt) => {
             // if jwt undefined, redirect to login
@@ -59,6 +50,7 @@ export default function HomeScreen({ navigation }) {
                 // messages to array
                 messages = Object.values(messages);
                 setUsers(messages);
+                // console.log(messages);
             })
             .catch(function (error) {
                 if(error.response.data.message === "Expired JWT Token") {
@@ -71,14 +63,14 @@ export default function HomeScreen({ navigation }) {
         });
     }, [refreshing]);
 
-
+    
 
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         // getData();
         wait(2000).then(() => setRefreshing(false));
-      }, []);
+    }, []);
 
     const Stack = createNativeStackNavigator();
     // getData();
@@ -97,10 +89,9 @@ export default function HomeScreen({ navigation }) {
                     />
                 }
             >
-
                 {users.map((user) => (
                     // console.log(user)
-                    <ConversationRow key={user.id} user={user}/>
+                    <ConversationRow key={user.id} user={user} navigation={navigation} />
                 ))}
             </ScrollView>
             

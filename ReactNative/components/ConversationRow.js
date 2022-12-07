@@ -10,16 +10,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-const onPress = (navigation, conversation) => {};
+
 
 export default function ConversationRow({user, navigation}) {
+    
     return (
         <View style={styles.container}>
-            {/* trigger alter */}
-            <TouchableOpacity onPress={() => alert('Hello, world!')} style={styles.row}>
+            {/* pass user in onPress and navigate */}
+            <TouchableOpacity onPress={()=>navigation.navigate('Chat', {user : user})} style={styles.row}>
                 <View style={styles.content}>
                     <Text style={styles.name}>{user.lastname} {user.firstname}</Text>
-                    {/* if not nut display user.lastMessage.message coupé sur 15 caractères max*/}
                     <Text style={styles.message}>{user.lastMessage ? user.lastMessage.message : 'Débuter une nouvelle conversation!'}</Text>
                 </View>
             </TouchableOpacity>
