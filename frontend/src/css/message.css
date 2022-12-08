@@ -1,7 +1,31 @@
+body {
+  background-color: #0b3954;
+}
+.messagecol {
+  height: 100vh;
+  overflow-y: scroll;
+}
 .lastmessage {
   color: rgb(222, 222, 222);
 }
-.contact {
-  height: 70px;
+.contactBox {
+  height: 85px;
   overflow: hidden;
+}
+.message {
+  color: white;
+  border: 1px solid rgb(255 255 255 / 18%);
+  margin-top: 20px;
+  max-width: 70%;
+  padding: 10px;
+}
+
+.imauthor {
+  margin-left: auto;
+  border-radius: 20px 20px 0px 20px;
+  background: rgb(155 155 155 / 25%);
+}
+.imnotauthor {
+  border-radius: 20px 20px 20px 0px;
+  background: rgb(240 224 224 / 15%);
 }

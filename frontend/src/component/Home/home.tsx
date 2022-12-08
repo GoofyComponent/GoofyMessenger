@@ -14,15 +14,14 @@ function Home() {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-3 sidebarcol">
+        <div className="col-5 col-md-3 sidebarcol">
           <Sidebar></Sidebar>
         </div>
-        <div className="col-9">
+        <div className="col-7 col-md-9">
           <div className="container-fluid ">
             <div className="row">
               <div className="col-12 messagecol">
-                {/* <MessageListe></MessageListe> */}
-                <div>messagelist</div>
+                <MessageListe></MessageListe>
               </div>
             </div>
           </div>

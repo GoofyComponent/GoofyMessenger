@@ -1,45 +1,68 @@
 import React from "react";
 import "../../css/bottombar.css";
 import TextareaAutosize from "react-textarea-autosize";
+import { useState } from "react";
+import axios from "axios";
 
 function BottomBar() {
-  //   function growUp() {
-  //     var barreBottom = document.getElementById("bottomBar");
-  //     var textareaMsg = document.getElementById("textareaMsg");
+  const [credentials, setCredentials] = useState({
+    message: "",
+  });
 
-  //     if (barreBottom != null && textareaMsg != null) {
-  //       var textareaHeight = parseInt(textareaMsg.style.height);
-  //       var current = parseInt(barreBottom.style.maxHeight);
+  const onChange = (e: any) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    console.log(e.target.value);
+    console.log(e.target.name);
+  };
 
-  //       current = textareaHeight + 40;
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    console.log(token);
+    console.log(credentials);
 
-  //       barreBottom.style.maxHeight = current + "px";
-  //     }
-  //   }
+    var url = "http://localhost:8245/api/message/post/4";
+    var config = {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "multipart/form-data",
+      },
+    };
 
-  // var yourTextArea = document.getElementById("textareaMsg");
-  // if (yourTextArea != null) {
-  //   var yourTextAreaLength = (yourTextArea as HTMLInputElement).value.length;
-  //   // In case you want to limit the number of characters in no less than, say, 10
-  //   // or no more than 400.
-  //   if (yourTextAreaLength < 10 || yourTextAreaLength > 400) {
-  //     alert(
-  //       "The field must have no less than 10 and no more than 400 characters."
-  //     );
-  //     return false;
-  //   }
-  // }
+    axios
+      .post(
+        url,
+        {
+          message: credentials.message,
+        },
+        config
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("error");
+      });
+    setCredentials({ ...credentials, message: "" });
+  };
 
   return (
     <div className="Row bottomBar" id="bottomBar">
       <div className="col h-100 bottomBox">
-        <textarea
-          autoFocus
-          id="textareaMsg"
-          maxLength={401}
-          spellCheck="true"
-          className="h-100 w-100"
-        />
+        <form className="d-flex" onSubmit={onSubmit}>
+          <textarea
+            autoFocus
+            id="textareaMsg"
+            maxLength={401}
+            spellCheck="true"
+            className="h-100 messagetextarea"
+            name="message"
+            value={credentials.message}
+            onChange={onChange}
+          />
+          <button className="messagesend">Send</button>
+        </form>
       </div>
     </div>
   );

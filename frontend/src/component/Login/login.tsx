@@ -49,7 +49,7 @@ function Login() {
 
   return (
     <>
-      <form onSubmit={onSubmit} className=" mx-auto p-4">
+      <form onSubmit={onSubmit} className="formLogReg mx-auto p-4">
         <h4 className=" text-md-center mb-4 text-primary"> Connexion </h4>
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label ">
@@ -85,7 +85,10 @@ function Login() {
         >
           Login{" "}
         </button>
-        <button className="mt-2 text-center">
+        <button
+          className="mt-2 text-center"
+          onClick={() => navigate("/register")}
+        >
           {" "}
           Don't have an account ? Resgister here{" "}
         </button>

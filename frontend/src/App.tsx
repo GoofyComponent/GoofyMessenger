@@ -22,15 +22,26 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/home"
+            path="/home/:idConv"
             element={
               <AuthGuard>
                 <Home />
               </AuthGuard>
             }
           />
-          <Route path="/login" element={<Login />} />
+          <Route>
+            <Route
+              path="/home"
+              element={
+                <AuthGuard>
+                  <Home />
+                </AuthGuard>
+              }
+            />
+            <Route path="/:idConv" element />
+          </Route>
 
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dev" element={<Dev />} />

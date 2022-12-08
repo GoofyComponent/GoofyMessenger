@@ -6,6 +6,7 @@
 }
 .bottomBox {
   background-color: #0b3954;
+  display: flex;
 }
 .bottomBox > textarea {
   resize: none;
@@ -22,4 +23,14 @@
 }
 .bottombarcol {
   padding: 20px;
+}
+.messagetextarea {
+  width: 85%;
+}
+.messagesend {
+  width: 15%;
+  background: rgb(255 255 255 / 25%);
+  border-radius: 5px;
+  border: 1px solid rgb(255 255 255 / 18%);
+  margin: 10px;
 }
