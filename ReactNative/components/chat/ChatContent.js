@@ -26,7 +26,6 @@ export default function ChatContent({messages}) {
             <View style={styles.container}>
                 <FlatList
                     inverted = {false}
-                    initialScrollIndex = {Allmessages.length - 1}
                     data={Allmessages}
                     renderItem={({item, index}) => {
                        return(
