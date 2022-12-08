@@ -8,7 +8,7 @@ import {
     TextInputProps,
     Button,KeyboardAvoidingView
   } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useRef } from 'react';
 import axios from "axios";
 import {SYMFONY_URL} from '@env'
 import  getJWT from '../../utils/getJWT';
@@ -16,6 +16,7 @@ import  getJWT from '../../utils/getJWT';
 import ChatContent from './ChatContent';
 import ChatInput from './ChatInput';
 
+import { createSlice, configureStore } from '@reduxjs/toolkit'
 
 
 export default function Chat({ route, navigation }) {
@@ -26,27 +27,23 @@ export default function Chat({ route, navigation }) {
     useEffect(() => {
         let jwtPromise = getJWT();
         jwtPromise.then((jwt) => {
-            console.log(user);        
             if(!jwt) {
                 navigation.navigate('Login');
             }
             var url = SYMFONY_URL + "/api/message/get/"+ user.id;
-            console.log(url);
             var config = {
                 headers: {
                     'Authorization': 'Bearer ' + jwt,
                 },
             };
             // to int
-            id = parseInt(id);
+            let id = parseInt(user.id);
             axios.get(url, config)
             .then(function (response) {
-                console.log(response.data);
                 let messages = response.data;
-                console.log(messages);
                 // messages to array
                 // messages = Object.values(messages);
-                // setMessage(messages);
+                setMessage(messages);
                 
             })
             .catch(function (error) {
@@ -61,13 +58,44 @@ export default function Chat({ route, navigation }) {
             
         });
     }, []);
-    
-    return (
-        <View style={styles.container}>
-            <ChatContent messages={message} style={styles.chatContent} />
-            <ChatInput user={user} style={styles.chatInput} />
-        </View>
-    );
+
+    if(message.length === 0) {
+        return (
+            <View style={styles.container}>
+                <Text>Loading...</Text>
+            </View>
+        )
+    }else {
+
+        const messageSlice = createSlice({
+            name: 'message',
+            initialState: {
+                message: message
+            },
+            reducers: {
+                addMessage: (state, payload) => {
+                    // dans le store on ajoute le message dans store.message
+                    if (state.message.messages) {
+                        let index = payload.payload.index;
+                        let message = payload.payload.toAdd;
+                        state.message.messages[index] = message;
+                    }
+                    
+                }
+            }
+        });
+
+        const store = configureStore({
+            reducer: messageSlice.reducer
+        });
+        return (
+            <View style={styles.container}>
+                {/* en ref on mets user.id */}
+                <ChatContent store={store} style={styles.chatContent} />
+                <ChatInput user={user} style={styles.chatInput} store={store} actions={messageSlice.actions} />
+            </View>
+        );
+    }
     // Le chat input doit etre en bas d'une certaine taille et le chat content doit etre en haut d'une certaine taille
 
    

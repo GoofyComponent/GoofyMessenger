@@ -12,6 +12,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Chat from './components/chat/Chat';
 import Logout from './components/Logout';
+// import {ChatContext} from './context/ChatContext';
 
 export default function App() {
 

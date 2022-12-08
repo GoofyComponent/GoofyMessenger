@@ -15,18 +15,25 @@ import {SYMFONY_URL} from '@env'
 import { StatusBar } from 'expo-status-bar';
 
 
-export default function ChatContent({messages}) {
-    let me = messages.me;
-    let other = messages.other;
-    let Allmessages = messages.messages;
+export default function ChatContent({store}) {
+    store.subscribe(() => 
+        setMessageStore(store.getState())
+    )
+
+    const [messageStore, setMessageStore] = useState(store.getState());
+
+    let me = messageStore.message.me;
+    let other = messageStore.message.other;
+    let Allmessages = messageStore.message.messages;
     if(Allmessages) {
         Allmessages = Object.values(Allmessages);
         // flatlist 
         return(
             <View style={styles.container}>
                 <FlatList
-                    inverted = {false}
-                    data={Allmessages}
+                    inverted ={true}
+                    // initialScrollIndex={Allmessages.length - 1}
+                    data={Allmessages.reverse()}
                     renderItem={({item, index}) => {
                        return(
                             <View style={styles.message} key={index}>
