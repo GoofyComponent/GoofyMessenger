@@ -72,8 +72,8 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/api/message/get/{IdConversation}', name: 'message_get_user', methods: 'GET', requirements: ['IdConversation' => '\d+'])]
-    public function getMessageUser($IdConversation, ConversationRepository $conversationRepository, Request $request): Response
+    #[Route('/api/message/get/{IdUser}', name: 'message_get_user', methods: 'GET', requirements: ['IdUser' => '\d+'])]
+    public function getMessageUser($IdUser, ConversationRepository $conversationRepository, Request $request, UserRepository $userRepository): Response
     {
         if (!$this->getUser()) {
             return $this->json([
@@ -81,14 +81,25 @@ class MessageController extends AbstractController
                 'message' => 'You need to be logged in to access this resource',
             ]);
         }
-
-        $conversation = $conversationRepository->find($IdConversation);
-        if (!$conversation) {
+        $target_user  = $userRepository->find($IdUser);
+        $conversation = $conversationRepository->findConversationsByUsers([$this->getUser(), $target_user]);
+        if (!$target_user) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Conversation not found',
+                'message' => 'User not found',
             ]);
         }
+        if (count($conversation) <= 0) {
+            return $this->json([
+                'status' => 'New conversation',
+                'me' => $this->getUser()->getLastName() . ' ' . $this->getUser()->getFirstName(),
+                'other' => $target_user->getLastName() . ' ' . $target_user->getFirstName(),
+                'messages' => json_decode('[]', true),
+            ]);
+        }
+        $conversation = $conversation[0];
+
+
         if (!$conversation->getUsers()->contains($this->getUser())) {
             return $this->json([
                 'status' => 'error',

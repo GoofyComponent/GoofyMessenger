@@ -84,12 +84,12 @@ class UserController extends AbstractController
         }
 
         $conversation = $this->conversationRepository->find($request->request->get('id'));
-        if (!$conversation) {
-            return $this->json([
-                'status' => 'error',
-                'message' => 'Conversation not found',
-            ]);
-        }
+        // if (!$conversation) {
+        //     return $this->json([
+        //         'status' => 'error',
+        //         'message' => 'Conversation not found',
+        //     ]);
+        // }
         $serializer = new Serializer([new ObjectNormalizer()], [new XmlEncoder(), new JsonEncoder()]);
 
         // si c'est pas la conversation de l'utilisateur courant
