@@ -60,15 +60,8 @@ function Sidebar(this: any) {
   return (
     <>
       <div className="sideBar">
-        <Row>
-          <Col className="d-flex">
-            <h1 className="p-3">Chat</h1>
-            <Button onClick={logout} className="">
-              logout
-            </Button>
-          </Col>
-        </Row>
-        <Row>
+        
+        <Row className="pt-5">
           <Col className="justify-content-center d-flex align-items-center">
             <img src={SearchIcon} alt="search" className="searchIcon mx-2" />
             <input
@@ -80,7 +73,7 @@ function Sidebar(this: any) {
           </Col>
         </Row>
 
-        <Row className="w-100 contactListBox mt-2">
+        <Row className="w-100 pt-3 contactListBox mt-2">
           <Col>
             <ul className="contactList">
               {" "}

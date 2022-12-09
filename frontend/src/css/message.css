@@ -23,9 +23,9 @@ body {
 .imauthor {
   margin-left: auto;
   border-radius: 20px 20px 0px 20px;
-  background: rgb(155 155 155 / 25%);
+  background: rgba(116, 164, 188, 0.75);
 }
 .imnotauthor {
   border-radius: 20px 20px 20px 0px;
-  background: rgb(240 224 224 / 15%);
+  background: rgb(182, 214, 204, 75%);
 }

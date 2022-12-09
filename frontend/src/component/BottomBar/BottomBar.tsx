@@ -1,27 +1,24 @@
 import React from "react";
 import "../../css/bottombar.css";
-import TextareaAutosize from "react-textarea-autosize";
 import { useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function BottomBar() {
+  var { idConv } = useParams();
   const [credentials, setCredentials] = useState({
     message: "",
   });
 
   const onChange = (e: any) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
-    console.log(e.target.value);
-    console.log(e.target.name);
   };
 
   const onSubmit = (e: any) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    console.log(token);
-    console.log(credentials);
 
-    var url = "http://localhost:8245/api/message/post/4";
+    var url = `http://localhost:8245/api/message/post/${idConv}`;
     var config = {
       headers: {
         Authorization: "Bearer " + token,
@@ -42,7 +39,6 @@ function BottomBar() {
       })
       .catch((err) => {
         console.log(err);
-        console.log("error");
       });
     setCredentials({ ...credentials, message: "" });
   };
@@ -50,7 +46,7 @@ function BottomBar() {
   return (
     <div className="Row bottomBar" id="bottomBar">
       <div className="col h-100 bottomBox">
-        <form className="d-flex" onSubmit={onSubmit}>
+        <form className="d-flex w-100" onSubmit={onSubmit}>
           <textarea
             autoFocus
             id="textareaMsg"
@@ -61,7 +57,7 @@ function BottomBar() {
             value={credentials.message}
             onChange={onChange}
           />
-          <button className="messagesend">Send</button>
+          <button className="messagesend mx-2 ">Send</button>
         </form>
       </div>
     </div>

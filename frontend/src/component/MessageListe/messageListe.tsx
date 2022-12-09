@@ -18,11 +18,10 @@ function MessageListe(user: any) {
   const [messageList, setMessageList] = useState([]);
 
   const { idConv } = useParams();
-  console.log(idConv);
+
 
   function fetchConv(props: any) {
     const token = localStorage.getItem("token");
-    console.log(token);
     var url = `http://localhost:8245/api/message/get/${idConv}`;
     var config = {
       headers: {

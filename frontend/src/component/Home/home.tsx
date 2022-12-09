@@ -1,24 +1,39 @@
 import React from "react";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Form, Row, Container, Col, Button } from "react-bootstrap";
 import axios from "axios";
 import "../../css/login.css";
 import "../../css/bottombar.css";
 import Sidebar from "../SideBar/sideBar";
-
 import BottomBar from "../BottomBar/BottomBar";
 import MessageListe from "../MessageListe/messageListe";
+import Navbar from "../Navbar/navbar";
+import { HiddenEasterEgg } from "react-hidden-easter-egg";
+import AAAH from "../../img/AAAAAH.mp3";
 
 function Home() {
+  var audio = new Audio(AAAH);
+  function playSound() {
+    if (audio) {
+      audio.play();
+    }
+  }
   return (
+    
     <div className="container-fluid">
+      <HiddenEasterEgg code={["j","f"]} resetEggMs={1}  cb={() => playSound()}>
+      </HiddenEasterEgg>
       <div className="row">
-        <div className="col-5 col-md-3 sidebarcol">
+        <div className="d-none d-md-block col-md-4 col-xl-3 ps-0 sidebarcol">
           <Sidebar></Sidebar>
         </div>
-        <div className="col-7 col-md-9">
+        <div className="col-12 col-md-8 col-xl-9 pe-0">
           <div className="container-fluid ">
+            <div className="row">
+              <div className="col-12 navbarcol">
+                <Navbar></Navbar>
+              </div>
+            </div>
             <div className="row">
               <div className="col-12 messagecol">
                 <MessageListe></MessageListe>
