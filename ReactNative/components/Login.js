@@ -72,7 +72,7 @@ export default function Login({navigation}) {
             <Text>Login</Text>
             {invalid && <Text style={styles.invalid}>Invalid Credentials</Text>}
             <TextInput placeholder="Email" name="username" value={credentials.username} onChangeText={e =>onChange(e,'username')} style={styles.input} />
-            <TextInput placeholder="Password" name="password" value={credentials.password} onChangeText={e =>onChange(e,"password")} style={styles.input} />
+            <TextInput placeholder="Password"secureTextEntry={true} name="password" value={credentials.password} onChangeText={e =>onChange(e,"password")} style={styles.input} />
             <Button title="Connexion" onPress={onSubmit} style={styles.button} />
             <StatusBar/>
             {/*  Pas de compte ? En créer un*/}
