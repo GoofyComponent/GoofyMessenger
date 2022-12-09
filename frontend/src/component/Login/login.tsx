@@ -50,7 +50,7 @@ function Login() {
   return (
     <>
       <form onSubmit={onSubmit} className="formLogReg mx-auto p-4">
-        <h4 className=" text-md-center mb-4 text-primary"> Connexion </h4>
+        <h4 className=" text-md-center mb-4"> Connexion </h4>
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label ">
             Email address{" "}
@@ -81,12 +81,12 @@ function Login() {
         </div>
         <button
           type="submit"
-          className="btn btn-outline-primary form-control mt-4 mb-2"
+          className="btn form-control mt-4 mb-2"
         >
           Login{" "}
         </button>
         <button
-          className="mt-2 text-center"
+          className="mt-2 linkbtn text-center"
           onClick={() => navigate("/register")}
         >
           {" "}

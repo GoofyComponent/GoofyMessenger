@@ -6,7 +6,9 @@ function Message(props: any) {
     <div className={`message ${props.messageclass}`}>
       <h5>{props.author}</h5>
       <p>{props.content}</p>
-      <span>{props.date}</span>
+      <div className="text-end">
+        <span>{props.date}</span>
+        </div>
     </div>
   );
 }

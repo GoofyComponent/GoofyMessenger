@@ -50,6 +50,7 @@ function MessageListe(user: any) {
         messageContainerRef.current.scrollHeight;
     }
   });
+  console.log(messageList);
 
   return (
     <div className="messagelist" ref={messageContainerRef}>
@@ -63,7 +64,7 @@ function MessageListe(user: any) {
                     <Message
                       author={message.author}
                       content={message.content}
-                      date={message.date}
+                      date={message.createdAtFr}
                       messageclass={"imauthor"}
                     />
                   );
@@ -72,7 +73,7 @@ function MessageListe(user: any) {
                     <Message
                       author={message.author}
                       content={message.content}
-                      date={message.date}
+                      date={message.createdAtFr}
                       messageclass={"imnotauthor"}
                     />
                   );

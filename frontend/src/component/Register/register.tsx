@@ -57,7 +57,7 @@ export default function register() {
   return (
     <div>
       <form onSubmit={onSubmit} className="formLogReg mx-auto p-4">
-        <h4 className=" text-md-center mb-4 text-primary"> Register </h4>
+        <h4 className=" text-md-center mb-4"> Register </h4>
         <div className="mb-3">
           <label htmlFor="name" className="form-label ">
             firstname{" "}
@@ -107,11 +107,11 @@ export default function register() {
           />
         </div>
 
-        <button type="submit"  className="btn btn-outline-primary form-control mt-4 mb-2">
+        <button type="submit"  className="btn  form-control mt-4 mb-2">
           Register{" "}
         </button>
 
-        <button className="mt-2 text-center" onClick={() => navigate("/login")}>
+        <button className="mt-2 linkbtn text-center" onClick={() => navigate("/login")}>
           {" "}
           Already have an account? Login here.{" "}
         </button>
