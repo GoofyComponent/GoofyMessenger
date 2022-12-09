@@ -1,57 +1,80 @@
+.sidebarcol {
+  height: 100vh;
+  background-color: #0b3954;
+}
+.messagecol {
+  height: 85vh;
+}
+.bottombarcol {
+  height: 15vh;
+  background-color: #0b3954;
+}
 .sideBar {
-    background-color: #0b3954;
-    height: 100vh;
-    width: 100%;
-    max-width: 350px;
-    color: white;
-    overflow: hidden;
+  background-color: #0b3954;
+  width: 100%;
+  height: 100%;
+  color: white;
+  overflow: hidden;
+  z-index: 1;
 }
 .search {
-    outline: none;
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid grey;
-    width: 80%;
-    color: white;
-    font-size: 18px;
+  outline: none;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid grey;
+  color: white;
+  font-size: 18px;
+  width: 100%;
+    margin-right: 5px;
 }
 input[type="search"]::-webkit-search-cancel-button {
-    -webkit-appearance: none;
-    height: 24px;
-    width: 24px;
-    margin-left: 0.4em;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
-    cursor: pointer;
+  -webkit-appearance: none;
+  height: 24px;
+  width: 24px;
+  margin-left: 0.4em;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
+  cursor: pointer;
 }
 .searchIcon {
-    width: 25px;
+  width: 25px;
 }
 .contactBox {
-    background: rgb(255 255 255 / 25%);
-    box-shadow: 0 8px 32px 0 rgb(108 108 108 / 37%);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border-radius: 5px;
-    border: 1px solid rgb(255 255 255 / 18%);
-    margin-top: 20px;
+  background: rgb(255 255 255 / 25%);
+  border-radius: 5px;
+  border: 1px solid rgb(255 255 255 / 18%);
+  margin-top: 20px;
 }
 .pp {
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    border-radius: 50%;
-    margin: 0 auto;
+  width: 50px;
+  height: 50px;
+  background-color: #10567e;
+  border-radius: 50%;
+  margin: 0 auto;
 }
 .contactListBox,
 .contactinfos {
-    --bs-gutter-x: 0;
+  --bs-gutter-x: 0;
 }
 .contactBox:active {
-    border-left: 5px solid #ff8427;
+  border-left: 5px solid #ff8427;
+}
+.lastmessage {
+  margin: 5px;
 }
 .contactList {
-    padding: 0;
-    list-style: none;
-    overflow-y: scroll;
-    height: 600px;
+  padding: 0;
+  list-style: none;
+  overflow-y: scroll;
+  height: 80vh;
+}
+.contactList::-webkit-scrollbar {
+  width: 5px;
+}
+.contactList::-webkit-scrollbar-thumb {
+  background: rgb(255 255 255 / 25%);
+  box-shadow: 0 8px 32px 0 rgb(108 108 108 / 37%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 3px;
+  border: 1px solid rgb(255 255 255 / 18%);
 }
