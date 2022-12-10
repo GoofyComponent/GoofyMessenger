@@ -16,7 +16,6 @@ import ConversationRow from './ConversationRow';
 
 
 
-
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -26,7 +25,9 @@ export default function HomeScreen({ navigation }) {
     const [users, setUsers] = useState([]);
     // const [jwt, setJwt] = useState('');
 
-    const [refreshing, setRefreshing] = useState(false);
+    const [refreshing, setRefreshing] = useState(false)
+
+    const [mercureJwt, setMercureJwt] = useState('');
 
     
 
@@ -47,7 +48,6 @@ export default function HomeScreen({ navigation }) {
             axios.get(url, config)
             .then(function (response) {
                 let messages = response.data.users;
-                // messages to array
                 messages = Object.values(messages);
                 setUsers(messages);
             })
@@ -61,6 +61,47 @@ export default function HomeScreen({ navigation }) {
             });
         });
     }, [refreshing]);
+
+    useEffect(() => {
+        let jwtPromise = getJWT();
+        jwtPromise.then((jwt) => {
+            // if jwt undefined, redirect to login
+            if(!jwt) {
+                navigation.navigate('Login');
+            }
+            var url = SYMFONY_URL + "/api/mercureAuthorization";
+            var config = {
+                headers: {
+                    'Authorization': 'Bearer ' + jwt,
+                }
+            };
+
+            axios.get(url, config)
+            .then(function (response) {
+                let mercureJwt = response.data.mercureAuthorization;
+                setMercureJwt(mercureJwt);
+                // console.log(mercureJwt);
+            })
+            .catch(function (error) {
+                if(error.response.data.message === "Expired JWT Token") {
+                    navigation.navigate('Login');
+                }
+                if(error.response.data.message === "Invalid JWT Token") {
+                    navigation.navigate('Login');
+                }
+            });
+        });
+    }, []);
+
+    // tant que mercureJwt est vide, on ne peut pas se connecter à mercure
+    while(mercureJwt === '') {
+        // on console log tous les cookies
+        return (
+            <View>
+                <Text>Loading...</Text>
+            </View>
+        );
+    }
 
     
 

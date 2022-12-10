@@ -58,6 +58,7 @@ class MessageController extends AbstractController
                 "userid" => $user->getId(),
                 'message' => $content,
                 'date' => $date->format('Y-m-d H:i:s'),
+                'author' => $user->getLastname() . " " . $user->getFirstname(),
             ]),
             true
         );

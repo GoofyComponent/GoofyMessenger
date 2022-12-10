@@ -92,7 +92,7 @@ export default function Chat({ route, navigation }) {
             <View style={styles.container}>
                 {/* en ref on mets user.id */}
                 <ChatContent store={store} style={styles.chatContent} />
-                <ChatInput user={user} style={styles.chatInput} store={store} actions={messageSlice.actions} />
+                <ChatInput idUserToChat={user.id} style={styles.chatInput} store={store} actions={messageSlice.actions} />
             </View>
         );
     }
