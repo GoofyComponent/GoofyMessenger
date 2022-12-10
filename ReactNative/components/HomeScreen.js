@@ -47,7 +47,6 @@ export default function HomeScreen({ navigation }) {
             axios.get(url, config)
             .then(function (response) {
                 let messages = response.data.users;
-                // messages to array
                 messages = Object.values(messages);
                 setUsers(messages);
             })
