@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import "../../css/login.css";
 import "../../css/bottombar.css";
-import Sidebar from "../sideBar/sideBar";
+import Sidebar from "../SideBar/sideBar";
 import BottomBar from "../BottomBar/BottomBar";
 import MessageListe from "../MessageListe/messageListe";
 import Navbar from "../Navbar/navbar";
@@ -13,7 +13,6 @@ import AAAH from "../../img/AAAAAH.mp3";
 import Qrcode from "../Qrcode/Qrcode";
 
 function Home() {
-  
   const [isOpen, setIsOpen] = useState(false);
 
   var audio = new Audio(AAAH);
