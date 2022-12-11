@@ -12,6 +12,7 @@ use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -70,6 +71,18 @@ class SecurityController extends AbstractController
             $user->setPassword(
                 password_hash($request->request->get('password'), PASSWORD_BCRYPT)
             );
+
+            // si un des champs est vide on lève une exception
+            if (empty($user->getEmail()) || empty($user->getFirstname()) || empty($user->getLastname()) || empty($user->getPassword())) {
+                throw new \Exception('Missing fields');
+            }
+
+            // si l'email existe déjà on lève une exception
+            if ($entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()])) {
+                throw new \Exception('Email already exists');
+            }
+
+
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -78,11 +91,14 @@ class SecurityController extends AbstractController
                 'message' => 'User created',
             ]);
         } catch (\Exception $e) {
-            return $this->json([
+            // return 400 http
+            $response = new JsonResponse();
+            $response->setStatusCode(400);
+            $response->setData([
                 'status' => 'error',
-                'message' => 'Une des valeurs est vide ou mal rentrée',
-                'code' => 400
+                'message' => $e->getMessage()
             ]);
+            return $response;
         }
     }
 
