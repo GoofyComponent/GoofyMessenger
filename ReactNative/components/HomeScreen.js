@@ -53,9 +53,9 @@ export default function HomeScreen({ navigation }) {
                 let messages = response.data.users;
                 messages = Object.values(messages);
                 setUsers(messages);
-                setIsFetching(false);
             })
             .catch(function (error) {
+                console.log(error);
                 if(error.response.data.message === "Expired JWT Token") {
                     navigation.navigate('Login');
                 }
@@ -84,8 +84,10 @@ export default function HomeScreen({ navigation }) {
             .then(function (response) {
                 let mercureJwt = response.data.mercureAuthorization;
                 setMercureJwt(mercureJwt);
+                setIsFetching(false);
             })
             .catch(function (error) {
+                console.log(error);
                 if(error.response.data.message === "Expired JWT Token") {
                     navigation.navigate('Login');
                 }
@@ -107,20 +109,20 @@ export default function HomeScreen({ navigation }) {
     }, []);
 
 
-    const url = MERCURE_URL+"?topic=https://example.com/my-private-topic";
-    // create event source
-    const eventSource = new RNEventSource(url, {
-        headers: {
-            Authorization: 'Bearer ' + mercureJwt,
-        },
-    });
-    // open event source
-    eventSource.addEventListener('open', () => {
-    });
-    // on message event
-    eventSource.addEventListener('message', (event) => {
-        onRefresh();
-    });
+    // const url = MERCURE_URL+"?topic=https://example.com/my-private-topic";
+    // // create event source
+    // const eventSource = new RNEventSource(url, {
+    //     headers: {
+    //         Authorization: 'Bearer ' + mercureJwt,
+    //     },
+    // });
+    // // open event source
+    // eventSource.addEventListener('open', () => {
+    // });
+    // // on message event
+    // eventSource.addEventListener('message', (event) => {
+    //     onRefresh();
+    // });
 
     if(isFetching) {
         <Loading message="Chargements de vos conversations..."/>
@@ -139,7 +141,7 @@ export default function HomeScreen({ navigation }) {
                 }
             >
                 {users.map((user) => (
-                    <ConversationRow key={user.id} user={user} navigation={navigation} mercureJwt={mercureJwt} eventSource={eventSource}/>
+                    <ConversationRow key={user.id} user={user} navigation={navigation} mercureJwt={mercureJwt} />
                 ))}
             </ScrollView>
             

@@ -12,12 +12,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-export default function ConversationRow({user, navigation, mercureJwt, eventSource}) {
+export default function ConversationRow({user, navigation, mercureJwt}) {
     return (
         <View style={styles.container}>
             {/* pass user in onPress and navigate */}
             {/* dans la navigatiton le $titre est egal à username */}
-            <TouchableOpacity onPress={()=>navigation.navigate('Chat', {user : user, mercureJwt : mercureJwt, eventSource : eventSource})} style={styles.row}>
+            <TouchableOpacity onPress={()=>navigation.navigate('Chat', {user : user, mercureJwt : mercureJwt})} style={styles.row}>
                 <View style={styles.content}>
                     <Text style={styles.name}>{user.lastname} {user.firstname}</Text>
                     <Text style={styles.message}>{user.lastMessage ? user.lastMessage.message : 'Débuter une nouvelle conversation!'}</Text>

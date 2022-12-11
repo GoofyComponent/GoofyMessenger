@@ -14,6 +14,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Chat from './components/chat/Chat';
 import Logout from './components/Logout';
+import QrCode from './components/QrCode';
+
 import { Image } from 'react-native-safe-area-context';
 import Modal from "react-native-modal";
 
@@ -75,6 +77,8 @@ export default function App() {
           headerTintColor: '#bee6e6',
           headerTitleStyle: {fontWeight: 'bold', fontSize: 20},
         })}/>
+        {/* login via QRCODE */}
+        <Stack.Screen name="QrCode" component={QrCode} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

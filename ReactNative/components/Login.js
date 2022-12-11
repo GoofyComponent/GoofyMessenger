@@ -58,6 +58,7 @@ export default function Login({navigation}) {
         .then(function (response) {
             if (response.data.token) {
                 setIsLogging(false);
+                console.log(response.data.token)
                 AsyncStorage.setItem('token', response.data.token);
                 navigation.navigate('Home');
             }
@@ -101,6 +102,14 @@ export default function Login({navigation}) {
                     <Pressable onPress={() => navigation.navigate('Register')}>
                         <Text style={{color: '#1f2e7a', fontWeight: 'bold'}}> S'inscrire</Text>
                     </Pressable>
+                </View>
+                {/* se connecter via qrcode */}
+                <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 20}}>
+                    <Text>Se connecter via QRCode ?</Text>
+                    <Pressable onPress={() => navigation.navigate('QrCode')}>
+                        <Text style={{color: '#1f2e7a', fontWeight: 'bold'}}> Scanner</Text>
+                    </Pressable>
+
                 </View>
             </View>
         </SafeAreaView>            

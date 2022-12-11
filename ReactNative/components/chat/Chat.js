@@ -128,7 +128,6 @@ export default function Chat({ route, navigation }) {
         if (store.getState().message.messages) {
             var index = store.getState().message.messages.length;
             store.dispatch(messageSlice.actions.addMessage({index: index, toAdd: data}));
-            console.log("on ajoute le message dans le store")
         }
     });
 
