@@ -5,8 +5,95 @@ import Message from "../Message/message";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import Cookies from "universal-cookie";
+import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
+const EventSource = NativeEventSource || EventSourcePolyfill;
+
+let createMercureCookie = async (JWT: string) => {
+  const d = new Date();
+  d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
+  const cookies = new Cookies();
+  cookies.set("mercureAuthorization", JWT, {
+    expires: d,
+    secure: false,
+    sameSite: "strict",
+  });
+};
+
+const deleteMercureCookie = () => {
+  const cookies = new Cookies();
+  cookies.remove("mercureAuthorization");
+};
 
 function MessageListe(user: any) {
+  const [mercure_JWT, setMercure_JWT] = useState(null);
+  function fetchMercure_JWT() {
+    const token = localStorage.getItem("token");
+    var url = `http://localhost:8245/api/mercureAuthorization`;
+    var config = {
+      credentials: "include",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios
+      .get(url, config)
+      .then((res) => {
+        setMercure_JWT(res.data.mercureAuthorization);
+        deleteMercureCookie();
+        deleteMercureCookie();
+
+        deleteMercureCookie();
+
+        deleteMercureCookie();
+
+        deleteMercureCookie();
+
+        createMercureCookie(res.data.mercureAuthorization);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    console.log("booba");
+    fetchMercure_JWT();
+    // const url = new URL("http://localhost:9090/.well-known/mercure");
+    // url.searchParams.append("topic", "https://example.com/my-private-topic");
+  }, []);
+  const urlEventSource =
+    "http://localhost:9090/.well-known/mercure?topic=https://example.com/my-private-topic";
+  // urlEventSource.searchParams.append(
+  //   "topic",
+  //   "https://example.com/my-private-topic"
+  // );
+
+  /* const eventSource = new EventSource(urlEventSource.toString(), {
+      headers: { Authorization: `Bearer ${mercureJWT}` },
+    }); */
+
+  const eventSource = new EventSource(
+    urlEventSource,
+    //Add the JWT to the Authorization header of the request
+    {
+      withCredentials: true,
+    }
+  );
+
+  eventSource.onopen = (event) => {
+    console.log("Luca je vais te buter");
+  };
+
+  eventSource.onmessage = (event) => {
+    console.log("message");
+    let data = JSON.parse(event.data);
+    console.log("onmessage", data);
+  };
+
+  eventSource.onerror = (event) => {
+    console.log("onerror", event);
+  };
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const token = localStorage.getItem("token");
@@ -18,7 +105,6 @@ function MessageListe(user: any) {
   const [messageList, setMessageList] = useState([]);
 
   const { idConv } = useParams();
-
 
   function fetchConv(props: any) {
     const token = localStorage.getItem("token");
@@ -32,14 +118,12 @@ function MessageListe(user: any) {
     axios
       .get(url, config)
       .then((res) => {
-        console.log(res.data);
         setMessageList(Object.values(res.data.messages));
       })
       .catch((err) => {
         console.log(err);
       });
   }
-  // console.log(messageList);
 
   useEffect(() => {
     fetchConv(idConv);
@@ -50,7 +134,6 @@ function MessageListe(user: any) {
         messageContainerRef.current.scrollHeight;
     }
   });
-  console.log(messageList);
 
   return (
     <div className="messagelist" ref={messageContainerRef}>

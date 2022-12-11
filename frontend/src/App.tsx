@@ -38,6 +38,14 @@ function App() {
                 </AuthGuard>
               }
             />
+            <Route
+              path="/"
+              element={
+                <AuthGuard>
+                  <Home />
+                </AuthGuard>
+              }
+            />
             <Route path="/:idConv" element />
           </Route>
 

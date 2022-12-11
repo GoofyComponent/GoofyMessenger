@@ -27,10 +27,10 @@ class CookieHelper
             'mercureAuthorization',
             $jwt,
             new \DateTime("10 minutes"),
-            '/.well-known/mercure',
-            'localhost',
-            true,
-            true,
+           null,
+           null,
+           null,
+           true,
             false,
             Cookie::SAMESITE_STRICT
         );
