@@ -86,7 +86,6 @@ export default function Register({navigation}) {
     }
 
     return(
-<<<<<<< Updated upstream
         <SafeAreaView style={styles.container}>
             <StatusBar style={{backgroundColor: "#756da7"}} />
             <View style={styles.header}>
@@ -106,17 +105,6 @@ export default function Register({navigation}) {
 
             </View>
         </SafeAreaView>
-=======
-        <View>
-            <Text>Register</Text>
-            <TextInput placeholder="Email" name="email" value={credentials.email} onChangeText={ e =>onChange(e,'email')} style={styles.input} />
-            <TextInput placeholder="Mot de passe" secureTextEntry={true} name="password" value={credentials.password} onChangeText={e =>onChange(e,"password")} style={styles.input} />
-            <TextInput placeholder="Nom" name="lastname" value={credentials.lastname} onChangeText={e =>onChange(e,"lastname")} style={styles.input} />
-            <TextInput placeholder="Prenom" name="firstname" value={credentials.firstname} onChangeText={e =>onChange(e,"firstname")} style={styles.input} />
-            <Button title="Inscription" onPress={onSubmit} style={styles.button} />
-            <StatusBar/>
-        </View>
->>>>>>> Stashed changes
     )
 }
 

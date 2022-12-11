@@ -37,6 +37,7 @@ export default function HomeScreen({ navigation }) {
     useEffect(() => {
         let jwtPromise = getJWT();
         setIsFetching(true);
+        setUsers([]);
         jwtPromise.then((jwt) => {
             // if jwt undefined, redirect to login
             if(!jwt) {
@@ -50,6 +51,7 @@ export default function HomeScreen({ navigation }) {
             };
             axios.get(url, config)
             .then(function (response) {
+                setIsFetching(false);
                 let messages = response.data.users;
                 messages = Object.values(messages);
                 setUsers(messages);
@@ -125,7 +127,9 @@ export default function HomeScreen({ navigation }) {
     // });
 
     if(isFetching) {
-        <Loading message="Chargements de vos conversations..."/>
+        return (
+            <Loading message="Chargements de vos conversations..."/>
+        );
     }
 
     return (

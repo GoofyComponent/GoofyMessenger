@@ -8,7 +8,7 @@ import {
 
 
 export default function Loading({message}) {
-
+    console.log(message)
     return(
         <View style={styles.container}>
             <Image source={require('../assets/goffyGIF.gif')} style={styles.image} />
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         maxWidth: 800,   
         backgroundColor:"#756da7",
+        zIndex: 10,
     },
     text: {
         color: '#bee6e6',
