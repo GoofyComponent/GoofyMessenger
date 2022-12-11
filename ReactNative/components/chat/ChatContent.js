@@ -36,9 +36,11 @@ export default function ChatContent({store}) {
                     data={Allmessages.reverse()}
                     renderItem={({item, index}) => {
                        return(
-                            <View style={styles.message} key={index}>
+                            
+                            <View style={item.author === me ? styles.myMessage : styles.otherMessage} key={index}>
                                 <Text>{item.content}</Text>
                             </View>
+
                           )
                     }}
                     keyExtractor={(item, index) => index.toString()}
@@ -54,16 +56,26 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: '100%',
 
     },
-    message: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
+    myMessage:{
+        maxWidth: '70%',
+        minWidth: '20%',
+        backgroundColor: '#f0f0f0',
+        padding: 10,
+        margin: 5,
         borderRadius: 10,
+        alignSelf: 'flex-end',
+    },
+    otherMessage:{
+        maxWidth: '70%',
+        minWidth: '20%',
+        backgroundColor: '#f0f0f0',
+        padding: 10,
+        margin: 5,
+        borderRadius: 10,
+        alignSelf: 'flex-start',
     },
 });
 

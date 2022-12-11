@@ -57,32 +57,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return User[] Returns an array of User objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('u')
+    //            ->andWhere('u.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('u.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
     public function findByPage($value): array
     {
-    // value est le numéro de page
-    // on prends que les 10 premiers en commencant par le 10 * value
+        // value est le numéro de page
+        // on prends que les 10 premiers en commencant par le 10 * value
         $value = $value - 1;
         return $this->createQueryBuilder('u')
             ->orderBy('u.id', 'ASC')
             ->setMaxResults(10)
             ->setFirstResult(10 * $value)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

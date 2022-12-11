@@ -57,6 +57,9 @@ class UserController extends AbstractController
                 $user->setLastMessage(["message" => $conversations[0]->getMessages()->last()->getContent(), "idConversation" => $conversations[0]->getId()]);
             }
         }
+
+
+
         $data = $serializer->serialize($users, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
 
         $data = json_decode($data, true);
@@ -125,5 +128,75 @@ class UserController extends AbstractController
             'status' => 'error',
             'message' => 'You are not allowed to access this conversation',
         ]);
+    }
+
+
+
+
+    #[Route('/api/users/all', name: 'app_user_all')]
+    public function indexAll(): Response
+    {
+        if (!$this->getUser()) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'You need to be logged in to access this resource',
+            ]);
+        }
+        // page cant be less than 1
+
+        // on serialize les données
+        $serializer = new Serializer([new ObjectNormalizer()], [new XmlEncoder(), new JsonEncoder()]);
+        $users = $this->userRepository->findAll();
+        // on retire l'utilisateur courant de la liste
+        $users = array_filter($users, fn ($user) => $user->getId() !== $this->getUser()->getId());
+        foreach ($users as $user) {
+            $conversations = $this->conversationRepository->findConversationsByUsers([$this->getUser(), $user]);
+            if (count($conversations) > 0) {
+                // dd($conversations[0]->getMessages()->last()->getContent());
+                $user->setLastMessage(["message" => $conversations[0]->getMessages()->last()->getContent(), "idConversation" => $conversations[0]->getId(), "createdAt" => $conversations[0]->getMessages()->last()->getCreatedAt()]);
+            }
+        }
+
+        $temp = [];
+        foreach ($users as $user) {
+            // si on est au premier tour de boucle, on ajoute l'utilisateur à la liste
+            if (count($temp) === 0) {
+                $temp[] = $user;
+            } // sinon on compare les dates. Si plus ancienne on la place avant sinon après. Si égale on la place avant
+            else {
+                $i = 0;
+                $added = false;
+                while ($i < count($temp) && !$added) {
+                    if ($user->getLastMessage() === null) {
+                        $temp[] = $user;
+                        $added = true;
+                    } elseif ($temp[$i]->getLastMessage() === null) {
+                        array_splice($temp, $i, 0, [$user]);
+                        $added = true;
+                    } elseif ($user->getLastMessage()['createdAt'] > $temp[$i]->getLastMessage()['createdAt']) {
+                        array_splice($temp, $i, 0, [$user]);
+                        $added = true;
+                    } elseif ($user->getLastMessage()['createdAt'] === $temp[$i]->getLastMessage()['createdAt']) {
+                        array_splice($temp, $i, 0, [$user]);
+                        $added = true;
+                    } else {
+                        $i++;
+                    }
+                }
+                if (!$added) {
+                    $temp[] = $user;
+                }
+            }
+        }
+        $users = $temp;
+
+        $data = $serializer->serialize($users, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['conversations', 'password', 'userIdentifier', 'email', 'roles']]);
+
+        $data = json_decode($data, true);
+        $json = $this->json([
+            'status' => 'success',
+            'users' => $data,
+        ]);
+        return $json;
     }
 }
