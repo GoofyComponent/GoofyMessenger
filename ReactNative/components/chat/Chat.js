@@ -23,7 +23,7 @@ import RNEventSource from 'react-native-event-source';
 
 import Loading from '../Loading';
 
-
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 
 
 export default function Chat({ route, navigation }) {

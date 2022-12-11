@@ -27,7 +27,7 @@ export default function Login({navigation}) {
     
     const [credentials, setCredentials] = useState({
         username: '',
-        password: 'password'
+        password: ''
     });
 
     const [invalid, setInvalid] = useState(false);
@@ -90,7 +90,7 @@ export default function Login({navigation}) {
             </View>
             <View style={styles.body}>
                 <TextInput placeholder="Email" name="username" value={credentials.username} onChangeText={e =>onChange(e,'username')} style={styles.input} />
-                <TextInput placeholder="Password" name="password" value={credentials.password} onChangeText={e =>onChange(e,"password")} style={styles.input} secureTextEntry={true} />
+                <TextInput placeholder="Mot de Passe" secureTextEntry={true} name="password" value={credentials.password} onChangeText={e =>onChange(e,"password")} style={styles.input}/>
                 {invalid && <Text style={styles.invalid}>Mauvais identifiants</Text>}
                 <Pressable style={styles.button} onPress={onSubmit}>
                     <Text style={styles.text}>Connexion</Text>
