@@ -1,31 +1,30 @@
-.navbar{
+.navbar {
   height: 10vh;
 }
-.logo{
+.logo {
   width: 65px;
-    height: 65px;
-    border-radius: 20px;
+  height: 65px;
+  border-radius: 20px;
 }
-.title{
-  color: white;
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+.navbarUser {
   font-size: 20px;
   font-weight: 700;
 }
-.navbarUser{
-  color: white;
-  font-size: 20px;
-  font-weight: 700;
-}
-.PP{
+.PP {
   width: 50px;
-    height: 50px;
-    background: #74A4BC;
-    border-radius: 50px;
+  height: 50px;
+  background: #74a4bc;
+  border-radius: 50px;
 }
-.btn-logout{
+.btn-logout {
   background-color: transparent!;
-   --bs-btn-bg: transparent! important;
-  color: white;
+  --bs-btn-bg: transparent !important;
+
   border: none;
   border-radius: 5px;
   padding: 10px;
@@ -33,9 +32,9 @@
   font-size: 15px;
   font-weight: 700;
 }
-.btn-logout:hover{
-  background-color:transparent!important;
-  color: white;
+.btn-logout:hover {
+  background-color: transparent !important;
+
   border: none;
   border-radius: 5px;
   padding: 10px;
@@ -43,9 +42,9 @@
   font-size: 15px;
   font-weight: 700;
 }
-.btn-logout:active{
-  background-color: transparent! important;
-  color: white;
+.btn-logout:active {
+  background-color: transparent !important;
+
   border: none;
   border-radius: 5px;
   padding: 10px;

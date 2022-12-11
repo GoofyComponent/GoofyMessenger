@@ -1,16 +1,15 @@
 .sidebarcol {
   height: 100vh;
-  background-color: #0b3954;
+  background-color: #031826;
+  border-right: 2px solid #fff;
 }
 .messagecol {
   height: 85vh;
 }
 .bottombarcol {
   height: 15vh;
-  background-color: #0b3954;
 }
 .sideBar {
-  background-color: #0b3954;
   width: 100%;
   height: 100%;
   color: white;
@@ -21,11 +20,11 @@
   outline: none;
   background-color: transparent;
   border: none;
-  border-bottom: 1px solid grey;
-  color: white;
+  border-bottom: 2px solid #fff;
+  color: #fff;
   font-size: 18px;
   width: 100%;
-    margin-right: 5px;
+  margin-right: 5px;
 }
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
@@ -39,15 +38,16 @@ input[type="search"]::-webkit-search-cancel-button {
   width: 25px;
 }
 .contactBox {
-  background: rgb(255 255 255 / 25%);
-  border-radius: 5px;
-  border: 1px solid rgb(255 255 255 / 18%);
   margin-top: 20px;
+  color: #fff;
+}
+.contact {
+  border-bottom: 1px solid #fff;
 }
 .pp {
   width: 50px;
   height: 50px;
-  background-color: #10567e;
+  background-color: #4388b3;
   border-radius: 50%;
   margin: 0 auto;
 }
@@ -56,10 +56,12 @@ input[type="search"]::-webkit-search-cancel-button {
   --bs-gutter-x: 0;
 }
 .contactBox:active {
-  border-left: 5px solid #ff8427;
+  border-left: 5px solid #fff;
 }
 .lastmessage {
   margin: 5px;
+  font-weight: 500;
+  color: #ff8d0a;
 }
 .contactList {
   padding: 0;
@@ -77,4 +79,7 @@ input[type="search"]::-webkit-search-cancel-button {
   -webkit-backdrop-filter: blur(4px);
   border-radius: 3px;
   border: 1px solid rgb(255 255 255 / 18%);
+}
+.contactName {
+  font-weight: 700;
 }
