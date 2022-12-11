@@ -3,13 +3,9 @@ import { useState } from "react";
 import QRCode from "qrcode.react";
 import "../../css/qrcode.css";
 
-
-
-
-function Qrcode ({isOpen, onChange} : { isOpen:boolean; onChange:any }){
-
+function Qrcode({ isOpen, onChange }: { isOpen: boolean; onChange: any }) {
   const qrRef = React.useRef();
-  const [url, setUrl] = React.useState("");
+  const token = localStorage.getItem("token");
 
   const downloadQRCode = (evt: React.FormEvent) => {
     evt.preventDefault();
@@ -22,32 +18,28 @@ function Qrcode ({isOpen, onChange} : { isOpen:boolean; onChange:any }){
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
-    setUrl("");
   };
-
 
   return (
     <div className={`qr_container ${isOpen && "open"}`}>
+      <div className="whitebox">
+        <QRCode
+          id="qrCodeElToRender"
+          size={200}
+          value={token}
+          bgColor="white"
+          fgColor="#141926"
+          level="H"
+          imageSettings={{
+            excavate: true,
+            width: 500 * 0.1,
+            height: 500 * 0.1,
+          }}
+        />
+      </div>
 
-<QRCode
-      id="qrCodeElToRender"
-      size={200}
-      value={url}
-      bgColor="white"
-      fgColor="#141926"
-      level="H"
-      imageSettings={{
-        excavate: true,
-        width: 500 * 0.1,
-        height: 500 * 0.1,
-      }}
-    />
-      
-      <span
-        className=" btnClose"
-        onClick={() => onChange(false)}
-      >
-       Close
+      <span className=" btnClose" onClick={() => onChange(false)}>
+        Close
       </span>
     </div>
   );
