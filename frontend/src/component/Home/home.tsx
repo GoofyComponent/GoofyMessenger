@@ -19,18 +19,21 @@ function Home() {
     }
   }
   return (
-    
     <div className="container-fluid">
-      <HiddenEasterEgg code={["j","f"]} resetEggMs={1}  cb={() => playSound()}>
-      </HiddenEasterEgg>
+      <HiddenEasterEgg
+        code={["j", "f"]}
+        resetEggMs={1}
+        cb={() => playSound()}
+        children={undefined}
+      ></HiddenEasterEgg>
       <div className="row">
         <div className="d-none d-md-block col-md-4 col-xl-3 ps-0 sidebarcol">
           <Sidebar></Sidebar>
         </div>
         <div className="col-12 col-md-8 col-xl-9 pe-0">
-          <div className="container-fluid ">
+          <div className="container-fluid  ">
             <div className="row">
-              <div className="col-12 navbarcol">
+              <div className="col-12  navbarcol">
                 <Navbar></Navbar>
               </div>
             </div>

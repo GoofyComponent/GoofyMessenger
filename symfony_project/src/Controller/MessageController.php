@@ -54,11 +54,10 @@ class MessageController extends AbstractController
                 "https://conversation/user/{$IdUser}/?topic=" . urlencode("https://example.com/my-private-topic"),
             ],
             json_encode([
-                "username" => $user->getEmail(),
-                "userid" => $user->getId(),
-                'message' => $content,
-                'date' => $date->format('Y-m-d H:i:s'),
-                'author' => $user->getLastname() . " " . $user->getFirstname(),
+                'content' => $content,
+                'createdAtFr' => $date->format('d/m/Y H:i:s'),
+                'author' => $this->getUser()->getLastname() . " " . $this->getUser()->getFirstname(),
+                'idUser' => $user->getId(),
             ]),
             true
         );

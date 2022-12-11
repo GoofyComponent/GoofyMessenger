@@ -51,10 +51,8 @@ export default function ChatInput({idUserToChat ,store ,actions}) {
         };
         axios(config)
         .then(function (response) {
-            console.log(response);
         })
         .catch(function (error) {
-           console.log(error);
         });
 
     }

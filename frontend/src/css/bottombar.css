@@ -2,21 +2,22 @@
   width: 100%;
   height: 100%;
 
-  background-color: #0b3954;
+  background-color: #031826;
 }
 .bottomBox {
-  background-color: #0b3954;
+  background-color: #031826;
   display: flex;
 }
 #textareaMsg {
   resize: none;
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
   border-radius: 5px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: white;
+  border: 2px solid #fff;
+  background-color: #031826;
+  color: #fff;
+  padding: 5px;
+}
+#textareaMsg:focus-visible {
+  border: none;
 }
 .bottomBox > textarea:focus-visible {
   outline: none;
@@ -29,9 +30,9 @@
 }
 .messagesend {
   width: 15%;
-  background: rgb(255 255 255 / 25%);
   border-radius: 5px;
-  border: 1px solid rgb(255 255 255 / 18%);
-  color: white;
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
   text-decoration: none;
 }

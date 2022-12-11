@@ -60,11 +60,11 @@ function Sidebar(this: any) {
   return (
     <>
       <div className="sideBar">
-        
         <Row className="pt-5">
           <Col className="justify-content-center d-flex align-items-center">
             <img src={SearchIcon} alt="search" className="searchIcon mx-2" />
             <input
+              placeholder="recherche"
               type="search"
               name="name"
               className="search"
@@ -89,7 +89,7 @@ function Sidebar(this: any) {
                           <div className="col-3">
                             <div className="pp"></div>
                           </div>
-                          <div className="col-9">
+                          <div className="col-9 contactName">
                             {users.firstname} {users.lastname}
                             <br />
                             <p className="lastmessage">
