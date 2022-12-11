@@ -1,0 +1,17 @@
+.qr_container {
+    z-index: 5;
+    position: fixed;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #1b3b6f;
+    transform: translate(-100%);
+    transition: all 0.45s;
+  }
+  
+  .qr_container.open {
+    transform: translate(0);
+  }

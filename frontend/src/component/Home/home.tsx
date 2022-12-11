@@ -4,14 +4,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import "../../css/login.css";
 import "../../css/bottombar.css";
-import Sidebar from "../SideBar/sideBar";
+import Sidebar from "../sideBar/sideBar";
 import BottomBar from "../BottomBar/BottomBar";
 import MessageListe from "../MessageListe/messageListe";
 import Navbar from "../Navbar/navbar";
 import { HiddenEasterEgg } from "react-hidden-easter-egg";
 import AAAH from "../../img/AAAAAH.mp3";
+import Qrcode from "../Qrcode/Qrcode";
 
 function Home() {
+  
+  const [isOpen, setIsOpen] = useState(false);
+
   var audio = new Audio(AAAH);
   function playSound() {
     if (audio) {
@@ -28,6 +32,7 @@ function Home() {
       ></HiddenEasterEgg>
       <div className="row">
         <div className="d-none d-md-block col-md-4 col-xl-3 ps-0 sidebarcol">
+          <Qrcode isOpen={isOpen} onChange={setIsOpen}></Qrcode>
           <Sidebar></Sidebar>
         </div>
         <div className="col-12 col-md-8 col-xl-9 pe-0">

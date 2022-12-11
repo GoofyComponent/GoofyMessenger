@@ -23,12 +23,14 @@ export default function Register({navigation}) {
         lastname: '',
         firstname: ''
     });
-
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false);
 
     const [invalid, setInvalid] = useState(false);
 
     const [invalidMessage, setInvalidMessage] = useState([]);
+
+    const [canRegister, setCanRegister] = useState(false);
 
     const onChange = (e,name) => {
         setCredentials({
@@ -36,8 +38,23 @@ export default function Register({navigation}) {
             [name]: e
         })
     }
+    const confirmPasswordChanged = (e) => {
+        setConfirmPassword(e)   
+    }
+    useEffect(() => {
+        checkIfCanRegister()
+    }, [confirmPassword, credentials]);
+
+    const checkIfCanRegister = () => {
+        setCanRegister(confirmPassword === credentials.password)
+    }
+
+    const resetAllError = () => {
+        setInvalid(false)
+    }
 
     const onSubmit = () => {
+        resetAllError()
         var url = SYMFONY_URL+"/api/register";
 
         var config = {
@@ -78,10 +95,11 @@ export default function Register({navigation}) {
             <View style={styles.body}>
                 {invalid && <Text style={styles.invalid}>{invalidMessage}</Text>}
                 <TextInput placeholder="Email" name="email" value={credentials.email} onChangeText={ e =>onChange(e,'email')} style={styles.input} placeholderTextColor="#1f2e7a" />
-                <TextInput placeholder="Mot de passe" name="password" value={credentials.password} onChangeText={e =>onChange(e,"password")} style={styles.input} placeholderTextColor="#1f2e7a" />
+                <TextInput placeholder="Mot de passe" secureTextEntry={true} name="password" value={credentials.password} onChangeText={e =>onChange(e,"password")} style={styles.input} placeholderTextColor="#1f2e7a" />
+                <TextInput placeholder="Confirmation du mot de passe" secureTextEntry={true} name="confirmPassword" value={confirmPassword} onChangeText={e =>confirmPasswordChanged(e)} style={styles.input} placeholderTextColor="#1f2e7a" />
                 <TextInput placeholder="Nom" name="lastname" value={credentials.lastname} onChangeText={e =>onChange(e,"lastname")} style={styles.input} placeholderTextColor="#1f2e7a" />
-                <TextInput placeholder="Prenom" name="firstname" value={credentials.firstname} onChangeText={e =>onChange(e,"firstname")} style={styles.input} placeholderTextColor="#1f2e7a" />
-                <Pressable style={styles.button} onPress={onSubmit}>
+                <TextInput placeholder="Prénom" name="firstname" value={credentials.firstname} onChangeText={e =>onChange(e,"firstname")} style={styles.input} placeholderTextColor="#1f2e7a" />
+                <Pressable style={styles.button} disabled={!canRegister} onPress={onSubmit} >
                     <Text style={styles.text}>Inscription</Text>
                 </Pressable>
 
