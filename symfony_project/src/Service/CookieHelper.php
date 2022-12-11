@@ -26,11 +26,11 @@ class CookieHelper
         $cookie = Cookie::create(
             'mercureAuthorization',
             $jwt,
-            new \DateTime("10 minutes"),
-           null,
-           null,
-           null,
-           true,
+            new \DateTime("+1 hour"),
+            '/.well-known/mercure',
+            'localhost',
+            true,
+            true,
             false,
             Cookie::SAMESITE_STRICT
         );

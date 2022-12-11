@@ -6,9 +6,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import Cookies from "universal-cookie";
-import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
-const EventSource = NativeEventSource || EventSourcePolyfill;
-
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 let createMercureCookie = async (JWT: string) => {
   const d = new Date();
   d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
@@ -39,6 +37,7 @@ function MessageListe(user: any) {
     axios
       .get(url, config)
       .then((res) => {
+        console.log(res.data.mercureAuthorization);
         setMercure_JWT(res.data.mercureAuthorization);
         deleteMercureCookie();
         deleteMercureCookie();
@@ -62,38 +61,7 @@ function MessageListe(user: any) {
     // const url = new URL("http://localhost:9090/.well-known/mercure");
     // url.searchParams.append("topic", "https://example.com/my-private-topic");
   }, []);
-  const urlEventSource =
-    "http://localhost:9090/.well-known/mercure?topic=https://example.com/my-private-topic";
-  // urlEventSource.searchParams.append(
-  //   "topic",
-  //   "https://example.com/my-private-topic"
-  // );
 
-  /* const eventSource = new EventSource(urlEventSource.toString(), {
-      headers: { Authorization: `Bearer ${mercureJWT}` },
-    }); */
-
-  const eventSource = new EventSource(
-    urlEventSource,
-    //Add the JWT to the Authorization header of the request
-    {
-      withCredentials: true,
-    }
-  );
-
-  eventSource.onopen = (event) => {
-    console.log("Luca je vais te buter");
-  };
-
-  eventSource.onmessage = (event) => {
-    console.log("message");
-    let data = JSON.parse(event.data);
-    console.log("onmessage", data);
-  };
-
-  eventSource.onerror = (event) => {
-    console.log("onerror", event);
-  };
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const token = localStorage.getItem("token");
@@ -134,6 +102,36 @@ function MessageListe(user: any) {
         messageContainerRef.current.scrollHeight;
     }
   });
+
+
+
+  const urlEventSource = new URL("http://localhost:9090/.well-known/mercure");
+  urlEventSource.searchParams.append("topic", `https://example.com/my-private-topic`);
+  // const eventSource = new EventSource(
+  //   urlEventSource,
+  //   //Add the JWT to the Authorization header of the request
+  //   {
+  //     withCredentials: true,
+  //   }
+  // );
+
+  var eventSource = new EventSourcePolyfill("http://localhost:9090/.well-known/mercure?topic=https://example.com/my-private-topic", {
+    headers: {
+      Authorization: `Bearer ${mercure_JWT}`,
+    },
+  });
+
+  eventSource.onopen = (event) => {
+    console.log("onopen", event);
+  };
+  eventSource.onmessage = (event) => {
+    let data = JSON.parse(event.data);
+    console.log("onmessage", data);
+  };
+  eventSource.onerror = (event) => {
+    console.log("onerror", event);
+  };
+
 
   return (
     <div className="messagelist" ref={messageContainerRef}>
