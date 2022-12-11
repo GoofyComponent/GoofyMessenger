@@ -1,20 +1,28 @@
 import React from "react";
 import "../../css/navbar.css";
 import GoofiLogo from "../../img/goffyLogo.png";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { accountService } from "../../_services/account.service";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Form, Row, Container, Col, Button } from "react-bootstrap";
-import Dropdown from "react-bootstrap/Dropdown";
+import Dropdown from 'react-bootstrap/Dropdown';
+import Qrcode from "../Qrcode/Qrcode";
+
+
 
 function Navbar() {
-  let navigate = useNavigate();
-  const logout = () => {
-    accountService.logout();
-    navigate("/login");
+  const [isOpen, setIsOpen] = useState(false);
+
+    let navigate = useNavigate();
+    const logout = () => {
+      accountService.logout();
+      navigate("/login");
+    const QRCode = () => {
+      navigate("/Qrcode")
+    }
   };
   const token = localStorage.getItem("token");
   if (token !== null) {
@@ -41,6 +49,7 @@ function Navbar() {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+                <Dropdown.Item onClick={() => setIsOpen(true)}>Qrcode</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
