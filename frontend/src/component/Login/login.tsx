@@ -18,14 +18,10 @@ function Login() {
 
   const onChange = (e: any) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
-    console.log(e.target.value);
-    console.log(e.target.name);
   };
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    console.log(credentials);
-
     var url = "http://localhost:8245/api/login";
     var config = {};
 
@@ -35,16 +31,11 @@ function Login() {
         password: credentials.password,
       })
       .then((res) => {
-        console.log(res);
         const JWT = res.data.token;
-        console.log(JWT);
         accountService.saveToken(JWT);
         navigate("/home");
       })
-      .catch((err) => {
-        console.log(err);
-        console.log("error");
-      });
+      .catch((err) => {});
   };
 
   return (
@@ -79,10 +70,7 @@ function Login() {
             required
           />
         </div>
-        <button
-          type="submit"
-          className="btn form-control mt-4 mb-2"
-        >
+        <button type="submit" className="btn form-control mt-4 mb-2">
           Login{" "}
         </button>
         <button

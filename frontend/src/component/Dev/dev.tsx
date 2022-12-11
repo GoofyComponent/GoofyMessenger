@@ -16,9 +16,7 @@ function Dev() {
     },
   };
   useEffect(() => {
-    axios.get("http://localhost:8245/api/users/1", config).then((res) => {
-      console.log(res.data);
-    });
+    axios.get("http://localhost:8245/api/users/1", config).then((res) => {});
   }, []);
 
   return <></>;

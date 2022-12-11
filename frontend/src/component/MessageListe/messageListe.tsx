@@ -6,7 +6,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import Cookies from "universal-cookie";
-import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
+import { NativeEventSource, EventSourcePolyfill } from "event-source-polyfill";
 let createMercureCookie = async (JWT: string) => {
   const d = new Date();
   d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
@@ -103,10 +103,11 @@ function MessageListe(user: any) {
     }
   });
 
-
-
   const urlEventSource = new URL("http://localhost:9090/.well-known/mercure");
-  urlEventSource.searchParams.append("topic", `https://example.com/my-private-topic`);
+  urlEventSource.searchParams.append(
+    "topic",
+    `https://example.com/my-private-topic`
+  );
   // const eventSource = new EventSource(
   //   urlEventSource,
   //   //Add the JWT to the Authorization header of the request
@@ -115,11 +116,14 @@ function MessageListe(user: any) {
   //   }
   // );
 
-  var eventSource = new EventSourcePolyfill("http://localhost:9090/.well-known/mercure?topic=https://example.com/my-private-topic", {
-    headers: {
-      Authorization: `Bearer ${mercure_JWT}`,
-    },
-  });
+  var eventSource = new EventSourcePolyfill(
+    "http://localhost:9090/.well-known/mercure?topic=https://example.com/my-private-topic",
+    {
+      headers: {
+        Authorization: `Bearer ${mercure_JWT}`,
+      },
+    }
+  );
 
   eventSource.onopen = (event) => {
     console.log("onopen", event);
@@ -127,11 +131,11 @@ function MessageListe(user: any) {
   eventSource.onmessage = (event) => {
     let data = JSON.parse(event.data);
     console.log("onmessage", data);
+    fetchConv(idConv);
   };
   eventSource.onerror = (event) => {
     console.log("onerror", event);
   };
-
 
   return (
     <div className="messagelist" ref={messageContainerRef}>

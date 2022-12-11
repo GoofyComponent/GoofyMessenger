@@ -9,7 +9,7 @@ export default function register() {
   const navigate = useNavigate();
 
   const [credentials, setCredentials] = useState({
-     email: "",
+    email: "",
     password: "",
     firstname: "",
     lastname: "",
@@ -17,14 +17,10 @@ export default function register() {
 
   const onChange = (e: any) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
-    console.log(e.target.value);
-
   };
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    console.log(credentials);
-
     var url = "http://localhost:8245/api/register";
     var config = {
       headers: {
@@ -33,26 +29,22 @@ export default function register() {
     };
 
     axios
-      .post(url,{
-        email: credentials.email,
-        password: credentials.password,
-        firstname: credentials.firstname,
-        lastname: credentials.lastname,
-      },config)
+      .post(
+        url,
+        {
+          email: credentials.email,
+          password: credentials.password,
+          firstname: credentials.firstname,
+          lastname: credentials.lastname,
+        },
+        config
+      )
       .then((res) => {
-        console.log(res);
         const JWT = res.data.token;
-        console.log(JWT);
         navigate("/home");
       })
-      .catch((err) => {
-        console.log(err);
-        console.log("error");
-      });
+      .catch((err) => {});
   };
-
-
-
 
   return (
     <div>
@@ -67,7 +59,8 @@ export default function register() {
             id="exampleInputName"
             name="firstname"
             value={credentials.firstname}
-            onChange={onChange}/>
+            onChange={onChange}
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="name" className="form-label ">
@@ -78,7 +71,8 @@ export default function register() {
             id="exampleInputName"
             name="lastname"
             value={credentials.lastname}
-            onChange={onChange} />
+            onChange={onChange}
+          />
         </div>
         <div className="mb-3">
           <label htmlFor="email" className="form-label ">
@@ -107,11 +101,14 @@ export default function register() {
           />
         </div>
 
-        <button type="submit"  className="btn  form-control mt-4 mb-2">
+        <button type="submit" className="btn  form-control mt-4 mb-2">
           Register{" "}
         </button>
 
-        <button className="mt-2 linkbtn text-center" onClick={() => navigate("/login")}>
+        <button
+          className="mt-2 linkbtn text-center"
+          onClick={() => navigate("/login")}
+        >
           {" "}
           Already have an account? Login here.{" "}
         </button>

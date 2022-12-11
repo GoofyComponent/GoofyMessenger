@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import "../../css/login.css";
+import "../../css/home.css";
 import "../../css/bottombar.css";
 import Sidebar from "../SideBar/sideBar";
 import BottomBar from "../BottomBar/BottomBar";
@@ -13,6 +15,7 @@ import AAAH from "../../img/AAAAAH.mp3";
 import Qrcode from "../Qrcode/Qrcode";
 
 function Home() {
+  const { idConv } = useParams();
   const [isOpen, setIsOpen] = useState(false);
 
   var audio = new Audio(AAAH);
@@ -41,19 +44,36 @@ function Home() {
                 <Navbar></Navbar>
               </div>
             </div>
-            <div className="row">
-              <div className="col-12 messagecol">
-                <MessageListe></MessageListe>
-              </div>
-            </div>
           </div>
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-12 bottombarcol">
-                <BottomBar></BottomBar>
+          {/* // si idConv est undefined, on affiche rien */}
+          {idConv ? (
+            <>
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col-12 messagecol">
+                    <MessageListe></MessageListe>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col-12 bottombarcol">
+                    <BottomBar></BottomBar>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="container-fluid d-flex align-items-center pasmsg">
+                <div className="row m-auto">
+                  <div className="col-12 ">
+                    <h2>Commencez une nouvelle conversation</h2>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

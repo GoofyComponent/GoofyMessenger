@@ -43,7 +43,6 @@ function Sidebar(this: any) {
         setUserList(Object.values(res.data.users));
       })
       .catch((err) => {
-        console.log(err);
         logout();
       });
   };

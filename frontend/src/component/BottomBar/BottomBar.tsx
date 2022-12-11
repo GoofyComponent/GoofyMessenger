@@ -34,12 +34,8 @@ function BottomBar() {
         },
         config
       )
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => {})
+      .catch((err) => {});
     setCredentials({ ...credentials, message: "" });
   };
 

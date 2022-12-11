@@ -8,28 +8,25 @@ import jwt_decode from "jwt-decode";
 import { accountService } from "../../_services/account.service";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Form, Row, Container, Col, Button } from "react-bootstrap";
-import Dropdown from 'react-bootstrap/Dropdown';
+import Dropdown from "react-bootstrap/Dropdown";
 import Qrcode from "../Qrcode/Qrcode";
-
-
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-    let navigate = useNavigate();
-    const logout = () => {
-      accountService.logout();
-      navigate("/login");
+  let navigate = useNavigate();
+  const logout = () => {
+    accountService.logout();
+    navigate("/login");
     const QRCode = () => {
-      navigate("/Qrcode")
-    }
+      navigate("/Qrcode");
+    };
   };
   const token = localStorage.getItem("token");
   if (token !== null) {
     var decodedJwt: any = jwt_decode(token);
   }
   var UserMe = decodedJwt.firstname;
-  console.log(UserMe);
   return (
     <>
       <div className="containers navbar">
@@ -49,11 +46,12 @@ function Navbar() {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
-                <Dropdown.Item onClick={() => setIsOpen(true)}>Qrcode</Dropdown.Item>
+                <Dropdown.Item onClick={() => setIsOpen(true)}>
+                  Qrcode
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             <Qrcode isOpen={isOpen} onChange={setIsOpen}></Qrcode>
-            
           </div>
         </div>
       </div>
