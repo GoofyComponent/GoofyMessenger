@@ -49,6 +49,7 @@ function Navbar() {
                 <Dropdown.Item onClick={() => setIsOpen(true)}>Qrcode</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
+            <Qrcode isOpen={isOpen} onChange={setIsOpen}></Qrcode>
             
           </div>
         </div>

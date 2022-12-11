@@ -7,11 +7,24 @@
     height: 100%;
     left: 0;
     top: 0;
-    background: #1b3b6f;
+    background: #031826;
     transform: translate(-100%);
     transition: all 0.45s;
+    
   }
   
   .qr_container.open {
     transform: translate(0);
+  }
+
+  .btnClose {
+    width: 100px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
   }
