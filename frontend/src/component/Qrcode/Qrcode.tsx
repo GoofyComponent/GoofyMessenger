@@ -25,7 +25,7 @@ function Qrcode({ isOpen, onChange }: { isOpen: boolean; onChange: any }) {
       <div className="whitebox">
         <QRCode
           id="qrCodeElToRender"
-          size={200}
+          size={500}
           value={token}
           bgColor="white"
           fgColor="#141926"
