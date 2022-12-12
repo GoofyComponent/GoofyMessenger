@@ -24,6 +24,26 @@ function Home() {
       audio.play();
     }
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    var url = `http://localhost:8245/api/message/get/${idConv}`;
+    var config = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    axios
+      .get(url, config)
+      .then((res) => {
+        setMessage(Object.values(res.data.messages));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
   return (
     <div className="container-fluid">
       <HiddenEasterEgg

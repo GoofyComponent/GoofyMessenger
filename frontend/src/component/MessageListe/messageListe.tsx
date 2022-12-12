@@ -101,6 +101,27 @@ function MessageListe(user: any) {
       messageContainerRef.current.scrollTop =
         messageContainerRef.current.scrollHeight;
     }
+    const eventSource = new EventSourcePolyfill(
+      "http://localhost:9090/.well-known/mercure?topic=https://example.com/my-private-topic",
+      {
+        headers: {
+          Authorization: `Bearer ${mercure_JWT}`,
+        },
+      }
+    );
+
+    eventSource.onopen = (event) => {};
+    eventSource.onmessage = (event) => {
+      let data = JSON.parse(event.data);
+      console.log("onmessage", data);
+      fetchConv(idConv);
+    };
+    eventSource.onerror = (event) => {
+      console.log("onerror", event);
+    };
+    return () => {
+      eventSource.close();
+    };
   });
 
   const urlEventSource = new URL("http://localhost:9090/.well-known/mercure");
@@ -115,27 +136,6 @@ function MessageListe(user: any) {
   //     withCredentials: true,
   //   }
   // );
-
-  var eventSource = new EventSourcePolyfill(
-    "http://localhost:9090/.well-known/mercure?topic=https://example.com/my-private-topic",
-    {
-      headers: {
-        Authorization: `Bearer ${mercure_JWT}`,
-      },
-    }
-  );
-
-  eventSource.onopen = (event) => {
-    console.log("onopen", event);
-  };
-  eventSource.onmessage = (event) => {
-    let data = JSON.parse(event.data);
-    console.log("onmessage", data);
-    fetchConv(idConv);
-  };
-  eventSource.onerror = (event) => {
-    console.log("onerror", event);
-  };
 
   return (
     <div className="messagelist" ref={messageContainerRef}>
