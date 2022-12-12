@@ -36,7 +36,6 @@ export default function HomeScreen({ navigation }) {
     
     useEffect(() => {
         let jwtPromise = getJWT();
-        setIsFetching(true);
         setUsers([]);
         jwtPromise.then((jwt) => {
             // if jwt undefined, redirect to login
@@ -51,7 +50,6 @@ export default function HomeScreen({ navigation }) {
             };
             axios.get(url, config)
             .then(function (response) {
-                setIsFetching(false);
                 let messages = response.data.users;
                 messages = Object.values(messages);
                 setUsers(messages);
@@ -81,15 +79,12 @@ export default function HomeScreen({ navigation }) {
                     'Authorization': 'Bearer ' + jwt,
                 }
             };
-
             axios.get(url, config)
             .then(function (response) {
                 let mercureJwt = response.data.mercureAuthorization;
                 setMercureJwt(mercureJwt);
-                setIsFetching(false);
             })
             .catch(function (error) {
-                setIsFetching(false);
                 console.log(error);
                 if(error.response.data.message === "Expired JWT Token") {
                     navigation.navigate('Login');

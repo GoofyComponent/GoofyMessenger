@@ -150,7 +150,6 @@ export default function Chat({ route, navigation }) {
     
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
