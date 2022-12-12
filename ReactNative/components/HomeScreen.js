@@ -89,6 +89,7 @@ export default function HomeScreen({ navigation }) {
                 setIsFetching(false);
             })
             .catch(function (error) {
+                setIsFetching(false);
                 console.log(error);
                 if(error.response.data.message === "Expired JWT Token") {
                     navigation.navigate('Login');
